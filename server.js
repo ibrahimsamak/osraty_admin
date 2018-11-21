@@ -9,7 +9,6 @@ const Adv = require('./server/routes/Advs');
 const User = require('./server/routes/user');
 const Basket = require('./server/routes/basket');
 const quota = require('./server/routes/offerquot');
-const prod = require('./server/startup/prod');
 
 if(!config.get('jwtPrivateKey')){
     console.error('no token');
@@ -35,8 +34,7 @@ app.use('/Adv',Adv);
 app.use('/User',User);
 app.use('/basket',Basket);
 app.use('/quota',quota);
-app.use(prod);
-
+require('./server/startup/prod')(app);
 
 app.get('*',(req,res)=>{
      res.sendFile(path.join(__dirname,'dist/index.html'))
