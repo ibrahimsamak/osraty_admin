@@ -1,0 +1,7 @@
+
+:host /deep/ tr.blocked {
+    background: rgba(238, 171, 171, 0.5);
+}
+:host /deep/tr:nth-child(2n).blocked{
+    background: rgba(238, 171, 171, 0.5);
+}

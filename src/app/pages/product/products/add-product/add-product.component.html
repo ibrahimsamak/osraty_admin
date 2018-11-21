@@ -1,0 +1,115 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>اضافة او تعديل منتج</nb-card-header>
+      <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <form #form="ngForm">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">اسم المنتج</label>
+              <input type="text" placeholder="اسم المنتج" class="form-control" #name="ngModel" [(ngModel)]="product.name"
+                [ngClass]="(name.invalid && (name.dirty || name.touched))?'form-control form-control-danger':'form-control'"
+                name="name" id="name" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label>الباركود - Barcode</label>
+              <div class="input-group">
+                <input type="text" placeholder="الباركود - Barcode" class="form-control" #barcode="ngModel" [(ngModel)]="product.barcode"
+                  name="barcode" id="barcode" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>التصنيف الرئيسي</label>
+              <div class="input-group">
+                <ng-select name="xx-{{rowIndex}}" class="form-control" [items]="cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف الرئيسي"
+                    [(ngModel)]="selected_category_id" #selectedcategoryid="ngModel" (change)="CategoryChanging($event)" required>
+                </ng-select>
+            </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>التصنيف الفرعي</label>
+              <div class="input-group">
+                <ng-select name="yy-{{rowIndex}}" class="form-control" [items]="sub_cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف الفرعي"
+                    [(ngModel)]="selected_sub_category_id" #selectedsubcategoryid="ngModel" 
+                    (change)="SubCategoryChanging($event)" required [disabled]="!selected_category_id">
+                </ng-select>
+            </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">عدد الموردين</label>
+              <input type="number" min=0 placeholder="عدد الموردين" class="form-control" #supplierno="ngModel"
+                [(ngModel)]="product.supplierno" [ngClass]="(supplierno.invalid && (supplierno.dirty || supplierno.touched))?'form-control form-control-danger':'form-control'"
+                name="supplierno" id="supplierno" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">البلد المنتج</label>
+              <input type="text" placeholder="البلد المنتج" class="form-control" #made_country="ngModel" [(ngModel)]="product.made_country"
+                [ngClass]="(made_country.invalid && (made_country.dirty || made_country.touched))?'form-control form-control-danger':'form-control'"
+                name="made_country" id="made_country" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>نبذة عن المنتج</label>
+            <div class="input-group">
+              <textarea rows="5" placeholder="نبذة عن المنتج" class="form-control" #details="ngModel" [(ngModel)]="product.details"
+                name="details" id="details"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>صور المنتج</label>
+            <div>
+              <div id="fileSelector">
+                <input type="file" placeholder="ادخل عنوان الصنف" id="fileUpload" multiple ng2FileSelect [uploader]="uploader"
+                  [ngClass]="(name.invalid && (name.dirty || name.touched))?'form-control form-control-danger':'form-control'">
+              </div>
+              <div class="form-group">
+                <label>الصور</label>
+                <div>
+                  <div class="row uploadList" *ngFor="let item of uploader.queue">
+                    <div class="col-sm-4">{{item.file.name}}</div>
+                    <div class="col-sm-4">
+                      <div class="progress">
+                        <div class="progress-bar bg-success" [ngStyle]="{'width':item.progress+'%'}"></div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: -14px;">
+                      <button type="button" class="btn btn-danger" (click)="item.remove()">حذف</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="product.images.length>0">
+                <label>صور المنتج</label>
+
+                <div class="row" *ngFor="let item of product.images; let i = index" style="margin:10px;padding:5px;background-color:rgb(231, 229, 229); border-radius:5px; line-height:40px;">
+                  <div class="col-sm-8">
+                    <img width='70px' height='70px' src="../../../../../assets/uploads/{{item}}" />
+                  </div>
+                  <div class="col-sm-4" style="text-align:center;"><button type="button" class="btn btn-primary" style="margin-top: 15px;"
+                      (click)="deleteImage(i)">حذف</button></div>
+                </div>
+              </div>
+
+              <div *ngIf="uploader?.queue?.length > 0 || isEdit">
+                <button type="button" class="btn btn-primary  btn-round btn-demo " [disabled]="uploader?.queue?.length === 0"
+                  (click)="upload()">رفع الصور</button>
+                <button [disabled]="!form.valid && !isEdit" class="btn btn-success btn-round btn-demo" (click)="Save(product);">حفظ
+                  المعلومات
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

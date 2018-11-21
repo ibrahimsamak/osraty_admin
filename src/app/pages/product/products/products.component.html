@@ -1,0 +1,11 @@
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+  <nb-card-header>
+      ادارة المنتجـــات
+      <a style="float: left;" alt='اضافة منتج' class="btn btn-success btn-icon" href='/pages/product/product' target="blank">
+        <i class="nb-plus"></i>
+      </a>
+    </nb-card-header>
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)" (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
+    </nb-card-body>
+</nb-card>
