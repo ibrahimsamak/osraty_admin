@@ -34,7 +34,7 @@ app.use('/Adv',Adv);
 app.use('/User',User);
 app.use('/basket',Basket);
 app.use('/quota',quota);
-require('./server/startup/prod')(app);
+// require('./server/startup/prod')(app);
 
 app.get('*',(req,res)=>{
     const index = path.join(__dirname, 'build', 'index.html');
