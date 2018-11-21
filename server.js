@@ -38,9 +38,9 @@ app.use('/quota',quota);
 
 app.get('*',(req,res)=>{
     // const index = path.join(__dirname, 'build', 'index.html');
-    // res.sendFile(path.join(__dirname + '/../ADMIN/build/index.html'));
+    res.sendFile(path.join(__dirname + 'ADMIN/build/index.html'));
 
-     res.sendFile(path.join(__dirname,'dist/index.html'))
+    //  res.sendFile(path.join(__dirname,'dist/index.html'))
     // res.sendFile(index);
 });
 
