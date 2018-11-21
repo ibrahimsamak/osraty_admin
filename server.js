@@ -37,9 +37,11 @@ app.use('/quota',quota);
 // require('./server/startup/prod')(app);
 
 app.get('*',(req,res)=>{
-    const index = path.join(__dirname, 'build', 'index.html');
-    //  res.sendFile(path.join(__dirname,'dist/index.html'))
-    res.sendFile(index);
+    // const index = path.join(__dirname, 'build', 'index.html');
+    // res.sendFile(path.join(__dirname + '/../ADMIN/build/index.html'));
+
+     res.sendFile(path.join(__dirname,'dist/index.html'))
+    // res.sendFile(index);
 });
 
 const port = process.env.PORT || 3000
