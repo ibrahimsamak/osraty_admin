@@ -10,7 +10,7 @@ import { takeWhile } from 'rxjs/operators/takeWhile';
       [secondValue]="directions.RTL"
       [firstValueLabel]="'LTR'"
       [secondValueLabel]="'RTL'"
-      [value]="rtl"
+      [value]="'rtl'"
       (valueChange)="toggleDirection($event)"
       [vertical]="vertical">
     </ngx-switcher>
