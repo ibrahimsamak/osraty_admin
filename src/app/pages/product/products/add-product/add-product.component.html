@@ -25,7 +25,7 @@
             <div class="form-group col-md-6">
               <label>التصنيف الرئيسي</label>
               <div class="input-group">
-                <ng-select name="xx-{{rowIndex}}" class="form-control" [items]="cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف الرئيسي"
+                <ng-select name="xx" class="form-control" [items]="cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف الرئيسي"
                     [(ngModel)]="selected_category_id" #selectedcategoryid="ngModel" (change)="CategoryChanging($event)" required>
                 </ng-select>
             </div>
@@ -33,7 +33,7 @@
             <div class="form-group col-md-6">
               <label>التصنيف الفرعي</label>
               <div class="input-group">
-                <ng-select name="yy-{{rowIndex}}" class="form-control" [items]="sub_cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف الفرعي"
+                <ng-select name="yy" class="form-control" [items]="sub_cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف الفرعي"
                     [(ngModel)]="selected_sub_category_id" #selectedsubcategoryid="ngModel" 
                     (change)="SubCategoryChanging($event)" required [disabled]="!selected_category_id">
                 </ng-select>

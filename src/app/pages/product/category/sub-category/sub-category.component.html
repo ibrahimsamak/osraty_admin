@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label>اختر التصنيف الرئيسي </label>
                 <div class="input-group">
-                    <ng-select name="xx-{{rowIndex}}" class="form-control" [items]="cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف"
+                    <ng-select name="xx" class="form-control" [items]="cateogires" bindLabel="name" bindValue="_id" placeholder="اختر التصنيف"
                         [(ngModel)]="selected_category_id" #selectedcategoryid="ngModel" (change)="ChangingValue($event)" required>
                     </ng-select>
                 </div>

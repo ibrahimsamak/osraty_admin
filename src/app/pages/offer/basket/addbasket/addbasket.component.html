@@ -57,7 +57,7 @@
             <div class="form-group col-md-12">
               <label for="inputPassword4">اختر الهايبر</label>
               <div class="input-group">
-                <ng-select name="aa-{{rowIndex}}" class="form-control" [items]="suppliers" bindLabel="name" bindValue="_id"
+                <ng-select name="aa" class="form-control" [items]="suppliers" bindLabel="name" bindValue="_id"
                   placeholder="اختر الهايبر" [(ngModel)]="selected_supplier_id" #selectedcategoryid="ngModel" (change)="SupplierChanging($event)"
                   required>
                 </ng-select>
@@ -68,7 +68,7 @@
             <div class="form-group col-md-6">
               <label>التصنيف الرئيسي</label>
               <div class="input-group">
-                <ng-select name="xx-{{rowIndex}}" class="form-control" [items]="cateogires" bindLabel="name" bindValue="_id"
+                <ng-select name="xx" class="form-control" [items]="cateogires" bindLabel="name" bindValue="_id"
                   placeholder="اختر التصنيف الرئيسي" [(ngModel)]="selected_category_id" #selectedcategoryid="ngModel"
                   [disabled]="!selected_supplier_id" (change)="CategoryChanging($event)" required>
                 </ng-select>
@@ -77,7 +77,7 @@
             <div class="form-group col-md-6">
               <label>التصنيف الفرعي</label>
               <div class="input-group">
-                <ng-select name="yy-{{rowIndex}}" class="form-control" [items]="sub_cateogires" bindLabel="name"
+                <ng-select name="yy" class="form-control" [items]="sub_cateogires" bindLabel="name"
                   bindValue="_id" placeholder="اختر التصنيف الفرعي" [(ngModel)]="selected_sub_category_id"
                   #selectedsubcategoryid="ngModel" (change)="SubCategoryChanging($event)" required [disabled]="!selected_category_id">
                 </ng-select>
@@ -87,7 +87,7 @@
           <div class="form-row" >
             <div class="form-group col-md-8">
               <label for="inputEmail4">المنتج</label>
-              <ng-select name="dd-{{rowIndex}}" [items]="products" bindLabel="product_id.name" dropdownPosition='top'
+              <ng-select name="dd" [items]="products" bindLabel="product_id.name" dropdownPosition='top'
                 bindValue="product_id._id" placeholder="اختر المنتج " [(ngModel)]="selected_product_id"
                 #selectedproductid="ngModel" (change)="ProductChanging($event)" required [disabled]="!selected_sub_category_id">
               </ng-select>

@@ -9,7 +9,7 @@
             <div class="form-group col-md-12">
               <label for="inputPassword4">اختر الهايبر</label>
               <div class="input-group">
-                <ng-select name="aa-{{rowIndex}}" class="form-control" [items]="suppliers" bindLabel="name" bindValue="_id"
+                <ng-select name="aa" class="form-control" [items]="suppliers" bindLabel="name" bindValue="_id"
                   placeholder="اختر الهايبر" [(ngModel)]="selected_supplier_id" #selectedSupplier="ngModel" (change)="SupplierChanging($event)"
                   required>
                 </ng-select>
@@ -19,7 +19,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <label for="inputEmail4">المنتج</label>
-              <ng-select name="dd-{{rowIndex}}" [items]="products" bindLabel="product_id.name" dropdownPosition='top'
+              <ng-select name="dd" [items]="products" bindLabel="product_id.name" dropdownPosition='top'
               bindValue="product_id._id" placeholder="اختر المنتج " [(ngModel)]="selected_product_id"
               #selectedproductid="ngModel" (change)="ProductChanging($event)" required [disabled]="!selectedSupplier">
             </ng-select>
