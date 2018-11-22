@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,'dist')));
 
 
-mongoose.connect('mongodb://localhost:27017/liken' , { useNewUrlParser: true })
+mongoose.connect(config.get('db_liken') , { useNewUrlParser: true })
 .then(()=>('connect to db'))
 .catch(()=>('err'))
 
