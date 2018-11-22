@@ -46,6 +46,7 @@
           <label for="inputPassword4">وحــدات الشراء والأسعـار</label>
           <div class="row demo-checkboxes-radio">
             <div class="col">
+                <!-- *ngFor="let item of myForm.get('prices').controls; -->
               <div class="demo-checkboxes col" formArrayName="prices" *ngFor="let item of myForm.get('prices'); let i = index;">
                 <div class="row" [formGroupName]="i">
                   <input type="hidden" formControlName="buy_unit_id" />
