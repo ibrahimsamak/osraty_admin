@@ -52,8 +52,21 @@ router.delete('/category/:id', async (req, res) => {
 
 router.get('/category/:id', async (req, res) => {
     const categories = await Category.findById(req.params.id);
-    if (!categories) return res.status(404).send('The customer with the given ID was not found.');
+    if (!categories) return res.status(404).send('the given ID was not found.');
     res.send(categories);
+});
+
+//mobile custom response
+router.get('/Getcategory', async (req, res) => {
+    const categories = await Category.find().sort({ _id: -1 });
+    const response = {
+        status_code: 200,
+        status: true,
+        message: 'return succssfully',
+        items: categories,
+        pagatination: []
+    }
+    res.json(response);
 });
 //#endregion
 
@@ -112,6 +125,23 @@ router.get('/subcategory/:id', async (req, res) => {
     if (!categories) return res.status(404).send('The customer with the given ID was not found.');
     res.send(categories);
 });
+
+//mobile custom response
+router.get('/Getsubcategorybycategoryid/:id', async (req, res) => {
+    await SubCategory.find({category_id:req.params.id}).sort({ _id: -1 })
+    .populate('category_id')
+    .exec(function (err, xx) {
+        if (err) return handleError(err);
+        const response = {
+            status_code: 200,
+            status: true,
+            message: 'return succssfully',
+            items: xx,
+            pagatination: []
+        }
+        res.json(response);
+    });;
+ });
 //#endregion
 
 //#region supplier 
@@ -127,7 +157,8 @@ router.post('/supplier', async (req, res) => {
     let Suppliers = new Supplier({
         name: req.body.name,
         image: req.body.image,
-        details: req.body.details
+        details: req.body.details,
+        rate:0
     });
 
     let rs = await Suppliers.save();
@@ -159,6 +190,20 @@ router.get('/supplier/:id', async (req, res) => {
     if (!Suppliers) return res.status(404).send('The customer with the given ID was not found.');
     res.send(Suppliers);
 });
+
+//mobile custom response
+router.get('/Getsupplier', async (req, res) => {
+    const Suppliers = await Supplier.find().sort({ _id: -1 });
+    const response = {
+        status_code: 200,
+        status: true,
+        message: 'return succssfully',
+        items: Suppliers,
+        pagatination: []
+    }
+    res.send(response);
+});
+
 //#endregion
 
 //#region product 
@@ -236,7 +281,6 @@ router.delete('/product/delete/:img', async (req, res) => {
     });
 });
 //#endregion
-
 
 
 //sample Join

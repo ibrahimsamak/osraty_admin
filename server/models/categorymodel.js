@@ -34,6 +34,9 @@ const Supplierschema = mongoose.Schema({
     },
     details:{
         type:String
+    },
+    rate:{
+        type:Number
     }
 });
 

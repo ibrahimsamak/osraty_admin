@@ -25,7 +25,15 @@ router.get('/quota', async (req, res) => {
     .exec(function (err, xx) {
         if (err) return handleError(err);
         
-        res.json(xx);
+        const response = {
+            status_code: 200,
+            status: true,
+            message: 'return succssfully',
+            items: xx,
+            pagatination: []
+        }
+
+        res.json(response);
     });
 });
 
@@ -67,13 +75,31 @@ router.delete('/quota/:id', async (req, res) => {
 
 router.get('/quota/:id', async (req, res) => {
     const sp = await OfferQuot.findById(req.params.id);
-    if (!sp) return res.status(404).send('The given ID was not found.');
+    if (!sp){
+        const response = {
+            status_code: 404,
+            status: false,
+            message: 'The given ID was not found.',
+            items: [],
+            pagatination: []
+        }
+        return res.json(response)
+    } 
     
     await OfferQuot.findById(req.params.id)
     .populate({path:'product_id',populate : {path : 'product_id'}})
     .exec(function (err, xx) {
         if (err) return handleError(err);
-        res.json(xx);
+
+        const response = {
+            status_code: 200,
+            status: true,
+            message: 'return succssfully',
+            items: xx,
+            pagatination: []
+        }
+
+        res.json(response);
     });
 });
 //#endregion

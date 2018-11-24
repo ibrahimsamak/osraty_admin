@@ -1,6 +1,6 @@
 export class appConstant {
-    public static items='items';
-    public static message='message';
-    public static pagatination='pagatination';
-    public static statusCode='status_code';
+    public static ITEMS='items';
+    public static MESSAGE='message';
+    public static PAGINATION='pagatination';
+    public static STATUS_CODE='status_code';
  }

@@ -21,7 +21,8 @@ const SupplierProductschema = mongoose.Schema({
         }]
     },
     qty:{type:Number},
-    dt_end:{type:Date}
+    dt_end:{type:Date},
+    rate:{type:Number}
 }, { versionKey: false });
 
 const SupplierProduct = mongoose.model('SupplierProduct',SupplierProductschema);

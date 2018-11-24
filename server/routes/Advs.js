@@ -6,10 +6,18 @@ const router = express.Router();
 const { Adv, validateAdv } = require('../models/adv');
 
 
+
 //#region Advs 
 router.get('/adv', async (req, res) => {
     const Advs = await Adv.find().sort({ _id: -1 });
-    res.send(Advs);
+    const response = {
+        status_code: 200,
+        status: true,
+        message: 'return succssfully',
+        items: Advs,
+        pagatination: []
+    }
+    res.json(response);
 });
 
 router.post('/adv', async (req, res) => {

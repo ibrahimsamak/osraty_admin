@@ -23,9 +23,16 @@ router.get('/basket', async (req, res) => {
     await Basket.find().sort({ _id: -1 })
     .populate('supplier_id')
     .populate({path:'products.product_id',populate : {path : 'product_id'}})
-    .exec(function (err, xx) {
-        if (err) return handleError(err);
-        res.json(xx);
+    .exec(function (err, item) {
+        if (err) return handleError(err); 
+        const response = {
+            status_code: 200,
+            status: true,
+            message: 'return succssfully',
+            items: item,
+            pagatination: []
+        }
+        res.json(response);
     });
 });
 
@@ -70,14 +77,30 @@ router.delete('/basket/:id', async (req, res) => {
 
 router.get('/basket/:id', async (req, res) => {
     const sp = await Basket.findById(req.params.id);
-    if (!sp) return res.status(404).send('The given ID was not found.');
+    if (!sp){
+        const response = {
+            status_code: 400,
+            status: true,
+            message: 'item not found',
+            items: [],
+            pagatination: []
+        }
+        return res.json(response);
+    }
     
     await Basket.findById(req.params.id)
     .populate('supplier_id')
     .populate({path:'products.product_id', populate: {path : 'product_id'}})
-    .exec(function (err, xx) {
+    .exec(function (err, item) {
         if (err) return handleError(err);
-        res.json(xx);
+        const response = {
+            status_code: 200,
+            status: true,
+            message: 'return succssfully',
+            items: item,
+            pagatination: []
+        }
+        res.json(response);
     });
 });
 //#endregion

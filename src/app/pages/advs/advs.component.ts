@@ -6,6 +6,7 @@ import { Toast, ToasterConfig, BodyOutputType, ToasterService } from 'angular2-t
 import { ConstantService } from '../service/constant.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { SuperComponent } from '../../_components/SuperComponent/SuperComponent';
+import { appConstant } from '../service/_constant/appConstant';
 const uri = '/product/category/file_upload';
 
 @Component({
@@ -141,8 +142,8 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   getData() {
     this.loading = true;
     this.subscripe = this.service.getAdvData().subscribe(userList => {
-      this.items = userList as any;
-      this.source.load(userList as any);
+      this.items = userList[appConstant.ITEMS] as any;
+      this.source.load(userList[appConstant.ITEMS] as any);
       this.loading = false;
     });
   }

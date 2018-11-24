@@ -6,6 +6,7 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { ConstantService } from '../../service/constant.service';
 import { ToasterService } from 'angular2-toaster';
 import { OfferService } from '../../service/offer.service';
+import { appConstant } from '../../service/_constant/appConstant';
 
 @Component({
   selector: 'ngx-basket',
@@ -115,8 +116,8 @@ export class BasketComponent extends SuperComponent implements OnInit {
   getData() {
     this.loading = true;
     this.subscripe = this.offer.getBasketData().subscribe(userList => {
-      this.items = userList as any;
-      this.source.load(userList as any);
+      this.items = userList[appConstant.ITEMS] as any;
+      this.source.load(userList[appConstant.ITEMS] as any);
       this.loading = false;
     });
   }

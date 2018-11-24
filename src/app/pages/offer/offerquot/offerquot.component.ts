@@ -40,7 +40,7 @@ export class OfferquotComponent extends SuperComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.offer.getOfferData().subscribe(response => {
-      this.items = response as any[];
+      this.items = response[appConstant.ITEMS] as any[];
       this.displayedColumns = ['image', 'name' , 'suuplier_name', 'qty', 'new_price', 'options'];
       this.dataSource = new MatTableDataSource(this.items);
       this.dataSource.paginator = this.paginator;

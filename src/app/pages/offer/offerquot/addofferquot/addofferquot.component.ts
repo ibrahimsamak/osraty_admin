@@ -4,6 +4,7 @@ import { OfferService } from '../../../service/offer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuperComponent } from '../../../../_components/SuperComponent/SuperComponent';
 import { ToasterService } from 'angular2-toaster';
+import { appConstant } from '../../../service/_constant/appConstant';
 
 @Component({
   selector: 'ngx-addofferquot',
@@ -44,11 +45,12 @@ export class AddofferquotComponent extends SuperComponent implements OnInit {
         this.isEdit = true;
         this.loading = true
         this.offer.getSingOfferData(this.id).subscribe((res) => {
-          this.offerObj = res as any;
-          this.selected_supplier_id = res['supplier_id']
+          const json = res[appConstant.ITEMS] as any;
+          this.offerObj = json
+          this.selected_supplier_id = json['supplier_id']
           this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res2) => {
             this.products = res2 as any[]
-            this.selected_product_id = res['product_id']['_id']
+            this.selected_product_id = json['product_id']['_id']
           });
           this.loading = false
         });

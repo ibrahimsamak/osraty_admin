@@ -7,6 +7,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { Subscription } from 'rxjs';
 import { SuperComponent } from '../../../../_components/SuperComponent/SuperComponent';
 import { OfferService } from '../../../service/offer.service';
+import { appConstant } from '../../../service/_constant/appConstant';
 const uri = '/product/category/file_upload';
 
 @Component({
@@ -125,13 +126,13 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
           this.isEdit = true;
           this.loading = true;
           this.offer.getSingBasketData(this.id).subscribe((Response)=>{
-            const res =  Response as any
+            const res =  Response[appConstant.ITEMS] as any
             this.basket.image = res['image'] 
             this.basket.name = res['name'] 
             this.basket.price = res['price'] 
             this.basket.supplier_id = res['supplier_id'] 
             this.selected_supplier_id = res['supplier_id'] 
-            const arr = Response['products'] as any[]
+            const arr = res['products'] as any[]
             arr.forEach(element => {
               const basket = {
                 product_id: element.product_id._id,

@@ -7,13 +7,6 @@ const fs = require('fs');
 const router = express.Router();
 const { SupplierProduct } = require('../models/supplier-product');
 
-const response = {
-    status_code: '',
-    message: '',
-    items: [],
-    pagatination: []
-}
-
 router.get('/', (req, res) => {
     res.send('works')
 });
@@ -21,10 +14,12 @@ router.get('/', (req, res) => {
 
 //#region Supplier Products 
 router.get('/supplierproducts', async (req, res) => {
-    const sp = await SupplierProduct.find().sort({ _id: -1 })
-    response.items = sp;
-    response.status_code = 200;
-    response.message = 'returned successfully'
+    const prod = await SupplierProduct.find().sort({ _id: -1 });
+    const response = {
+        items :prod,
+        status_code : 200,
+        message :'returned successfully'
+    }
     res.json(response);
 });
 
@@ -38,7 +33,8 @@ router.post('/supplierproducts', async (req, res) => {
         prices: req.body.prices,
         qty: req.body.qty,
         dt_end: req.body.dt_end,
-        sub_category_id: req.body.sub_category_id
+        sub_category_id: req.body.sub_category_id,
+        rate: 0
     });
 
     let rs = await supplierproducts.save();
@@ -86,32 +82,45 @@ router.post('/supplierproductsSearch', async (req, res) => {
         .populate('product_id')
         .exec(function (err, xx) {
             if (err) return handleError(err);
-            response.items = xx;
-            response.status_code = 200;
-            response.message = 'returned successfully'
+
+            const response = {
+                items : xx,
+                status_code:200,
+                message : 'returned successfully'
+            }
             res.json(response);
         });
 });
 
 //عرض  المنتجات من تصنيف فرعي لهايبر معين
 router.get('/supplierproductsBySubCategoryId/:id/:supid', async (req, res) => {
-    await SupplierProduct.find({sub_category_id:req.params.id , supplier_id:req.params.supid})
+    await SupplierProduct.find({ sub_category_id: req.params.id, supplier_id: req.params.supid })
         .populate('product_id')
         .select('product_id')
         .exec(function (err, xx) {
             if (err) return handleError(err);
-            res.json(xx);
+            const response = {
+                items :  xx,
+                status_code :  200,
+                message :  'returned successfully'
+            }
+            res.json(response);
         });
 });
 
 //عرض  المنتجات من هايبر معين
 router.get('/supplierproductsBySupplierId/:id', async (req, res) => {
-    await SupplierProduct.find({supplier_id:req.params.id})
+    await SupplierProduct.find({ supplier_id: req.params.id })
         .populate('product_id')
         .select('product_id')
         .exec(function (err, xx) {
             if (err) return handleError(err);
-            res.json(xx);
+            const response = {
+                items :  xx,
+                status_code :  200,
+                message : 'returned successfully'
+            }
+            res.json(response);
         });
 });
 
@@ -129,8 +138,12 @@ router.post('/relatedPoductsInSupplier', async (req, res) => {
                 var result = _.filter(xx, function (itm) {
                     return itm.product_id.name.indexOf(req.body.name) >= 0
                 });
-                console.log(result);
-                res.send(result)
+                const response = {
+                    items :  result,
+                    status_code : 200,
+                    message :  'returned successfully'
+                }
+                res.json(response);
             }
         });
 });
@@ -146,7 +159,12 @@ router.post('/relatedPoductsInOtherSupplier', async (req, res) => {
         .exec(function (err, result) {
             if (err) { return handleError(err); }
             else {
-                res.send(result)
+                const response = {
+                    items :  result,
+                    status_code :  200,
+                    message :  'returned successfully'
+                }
+                res.json(response);
             }
         });
 });
@@ -154,7 +172,8 @@ router.post('/relatedPoductsInOtherSupplier', async (req, res) => {
 //البحث باسم معين وتصنيف معين
 router.post('/search', async (req, res) => {
     await SupplierProduct.find({
-        'category_id': req.body.category_id
+        'category_id': req.body.category_id,
+        'sub_category_id': req.body.sub_category_id
     })
         .populate('category_id')
         .populate('product_id')
@@ -164,32 +183,79 @@ router.post('/search', async (req, res) => {
                 var result = _.filter(xx, function (itm) {
                     return itm.product_id.name.indexOf(req.body.name) >= 0
                 });
-                console.log(result);
-                res.send(result)
+                const response = {
+                    items :  result,
+                    status_code :  200,
+                    message :  'returned successfully'
+                }
+                res.json(response);
             }
         });
 });
 
 router.post('/advanceSearch', async (req, res) => {
     await SupplierProduct.find({
-        'supplier_id': req.body.supplier_id
-        , 'category_id': req.body.category_id
+        'rate': req.body.rate,
+        'prices.price': {
+            $gte: req.body.price1,
+            $lte: req.body.price2
+        }
     })
         .populate('category_id')
         .populate('product_id')
         .exec(function (err, xx) {
             if (err) { return handleError(err); }
             else {
-                var result = _.filter(xx, function (itm) {
-                    return itm.product_id.name.indexOf(req.body.name) >= 0
-                });
-                // var result2 = _.filter(result,function(itm){
-                //     return result.name == 
-                // });
-                console.log(result);
-                res.send(result)
+                const response = {
+                    items :  xx,
+                    status_code :  200,
+                    message :  'returned successfully'
+                }
+                res.json(response);
             }
         });
+});
+
+router.post('/liken', async (req, res) => {
+
+    var count = 0;
+    var items = [];
+   await req.body.cart.forEach(async function (element) {
+        var product_id = element.product_id;
+        var supplier_id = element.supplier_id;
+
+        // const exsits_price = await SupplierProduct.findOne({supplier_id:supplier_id , product_id : product_id});
+        
+        await SupplierProduct.find({
+            'product_id': { $in: product_id },
+            'supplier_id': { $nin: supplier_id }
+        })
+            .populate('category_id')
+            .populate('product_id')
+            .sort('-prices.price')
+            .exec(function (err, xx) {
+                if (err) { 
+                    return handleError(err); 
+                }
+                else {
+                    if (xx.length > 0) {
+                        items.push(xx[0])
+                    }
+                    count++;
+                    if (count === req.body.cart.length)
+                    {
+                        count=0
+                        const response = {
+                            items:items,
+                            status_code :  200,
+                            message :  'returned successfully'
+                        }
+                        res.json(response);
+                        res.end()
+                    }
+                }
+         });
+    });
 });
 //#endregion
 

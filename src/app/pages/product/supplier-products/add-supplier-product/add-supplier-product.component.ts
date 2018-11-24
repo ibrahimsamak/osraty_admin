@@ -76,6 +76,7 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
         // this.buyUnits = res2;
         this.buyUnitsName = res2 as any
 
+        this.myForm.get('prices') as FormArray;
         this.prices = this.myForm.get('prices') as FormArray;
         this.prices.controls = [];
         var x = res2 as any[];
@@ -281,5 +282,9 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
       }
       this.loading = false
     })
+  }
+
+  get getPrices() {
+    return this.myForm.get('prices') as FormArray;
   }
 }

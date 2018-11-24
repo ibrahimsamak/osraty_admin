@@ -8,6 +8,12 @@ const fs = require('fs');
 const router = express.Router();
 const { Users, validateUsers } = require('../models/usermode');
 
+const response = {
+    status_code: '',
+    status: '',
+    message: '',
+    items: []
+}
 
 var upload = multer({ dest: './dist/assets/uploads/' })
 var storage = multer.diskStorage({
@@ -34,15 +40,41 @@ router.post('/add', async (req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
 
     const _user = await Users.findOne({phone_number: req.body.phone_number});
-    if(_user){
-        res.json('Duplicate phone number');
-    }else{
+    if(_user)
+    {
+        response = {
+            status_code: 200,
+            status: true,
+            message: 'return succssfully',
+            items: _user
+        }
+        res.json(response);
+    }
+    else{
         let user = new Users({
             phone_number: req.body.phone_number,
-            verify_code: 1234
+            verify_code: 1234,
+            full_name: '',
+            email: '',
+            image:'',
+            address: '',
+            lat : req.body.lat,
+            lng : req.body.lng,
+            createAt : new Date(),
+            city : req.body.city,
+            isVerify: false,
+            isBlock: false,
+            wallet:0
         });
         let rs = await user.save();
-        res.json(rs);
+
+        response = {
+            status_code: 200,
+            status: true,
+            message: 'return succssfully',
+            items: rs
+        }
+        res.json(response);
     }
 });
 
@@ -59,11 +91,33 @@ router.put('/verify', async (req, res) => {
             token : jwt.sign({_id:req.body.id}, config.get('jwtPrivateKey'))
         }, { new: true })
         
-        if (!user) return res.status(404).send('حدث خطأ الرجاء المحاولة مرة اخرى');
-        res.send(user);
+        if (!user){
+            response = {
+                status_code: 404,
+                status: false,
+                message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
+                items: []
+            }
+            res.json(response);
+        }
+        else{
+            response = {
+                status_code: 200,
+                status: true,
+                message: '',
+                items: user
+            }
+            res.json(response);
+        }
     }
     else{
-        res.json('error incorrect verify code');
+        response = {
+            status_code: 404,
+            status: false,
+            message: 'خطأ!! في رقم التفعيل',
+            items: []
+        }
+        res.json(response);
     }
 });
 
@@ -77,10 +131,25 @@ router.put('/updateprofile',upload.any(),async (req, res) => {
             image: req.files[0].filename,
             address: req.body.address,
             city : req.body.city
-        }, { new: true })
-    
-        if (!user) return res.status(404).send('حدث خطأ الرجاء المحاولة مرة اخرى');
-        res.send(user);
+        }, { new: true }) 
+        if (!user){
+            response = {
+                status_code: 404,
+                status: false,
+                message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
+                items: []
+            }
+            res.json(response);
+        } 
+        else{
+            response = {
+                status_code: 200,
+                status: true,
+                message: '',
+                items: user
+            }
+            res.json(response);
+        }
     }
     else{
         const user = await Users.findByIdAndUpdate((req.body.id), {
@@ -89,8 +158,23 @@ router.put('/updateprofile',upload.any(),async (req, res) => {
             city : req.body.city
         }, { new: true })
     
-        if (!user) return res.status(404).send('حدث خطأ الرجاء المحاولة مرة اخرى');
-        res.send(user);
+        if (!user){
+            response = {
+                status_code: 404,
+                status: false,
+                message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
+                items: []
+            }
+            res.json(response);
+        }else{
+            response = {
+                status_code: 200,
+                status: true,
+                message: 'تم تعديل الملف الشخصي',
+                items: user
+            }
+            res.json(response);
+        }
     }
 
 });
@@ -112,9 +196,16 @@ router.put('/block/:id', async (req, res) => {
 router.get('/userprofile/:id', async (req, res) => {
     const user = await Users.findById(req.params.id);
     if (!user) return res.status(404).send('The given ID was not found.');
-    res.send(user);
-});
+   
+    response = {
+        status_code: 200,
+        status: true,
+        message: '',
+        items: user
+    }
 
+    res.json(response);
+});
 //#endregion
 
 module.exports = router;

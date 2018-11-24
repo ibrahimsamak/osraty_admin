@@ -47,6 +47,10 @@ const UserSchema = mongoose.Schema({
         type:Boolean,
         default: false
     },
+    wallet:{
+        type:Number,
+        default: 0
+    },
     token:{
         type:String
     }

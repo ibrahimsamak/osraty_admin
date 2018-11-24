@@ -25,15 +25,15 @@ export class EarningService {
   private pieChartData = [
     {
       value: 50,
-      name: 'Bitcoin',
+      name: 'الخضروات',
     },
     {
       value: 25,
-      name: 'Tether',
+      name: 'المشروبات',
     },
     {
       value: 25,
-      name: 'Ethereum',
+      name: 'اللحوم',
     },
   ];
 
