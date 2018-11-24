@@ -36,8 +36,8 @@ router.post('/user/file_upload', upload.any(), function (req, res) {
 
 //#region Users 
 router.post('/add', async (req, res) => {
-    const { error } = validateUsers(req.body); 
-    if (error) return res.status(400).send(error.details[0].message);
+    // const { error } = validateUsers(req.body); 
+    // if (error) return res.status(400).send(error.details[0].message);
 
     const _user = await Users.findOne({phone_number: req.body.phone_number});
     if(_user)
@@ -193,7 +193,34 @@ router.put('/block/:id', async (req, res) => {
     res.send(user);
 });
 
-router.get('/userprofile/:id', async (req, res) => {
+
+router.put('/wallet/:id', auth ,async (req, res) => {
+    const user = await Users.findByIdAndUpdate((req.params.id), {
+        wallet : req.body.wallet
+    }, { new: true })
+
+    if (!user) {
+        response = {
+            status_code: 404,
+            status: true,
+            message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
+            items: user
+        }
+        res.json(response);
+    }
+    else{
+        response = {
+            status_code: 200,
+            status: true,
+            message: 'تم شحن المحفظة بنجاح',
+            items: user
+        }
+        res.json(response);
+    } 
+});
+
+
+router.get('/userprofile/:id', auth ,async (req, res) => {
     const user = await Users.findById(req.params.id);
     if (!user) return res.status(404).send('The given ID was not found.');
    

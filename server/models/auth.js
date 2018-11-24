@@ -3,14 +3,25 @@ const config = require('config');
 
 module.exports = function (req, res, next) {
   const token = req.header('token');
-  if (!token) return res.status(401).json('Access denied. No token provided.');
-  
+  if (!token) {
+    const response = {
+      status_code: 400,
+      status: true,
+      message: 'Access denied. No token provided.'
+    }
+    return res.json(response);
+  }
   try {
     const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-    req.user = decoded; 
+    req.user = decoded;
     next();
   }
   catch (ex) {
-    res.status(400).json('Invalid token.');
+    const response = {
+      status_code: 400,
+      status: true,
+      message:'Invalid token.'
+    }
+    return res.json(response);
   }
 }
