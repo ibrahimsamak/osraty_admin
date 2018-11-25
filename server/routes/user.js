@@ -8,13 +8,6 @@ const fs = require('fs');
 const router = express.Router();
 const { Users, validateUsers } = require('../models/usermode');
 
-const response = {
-    status_code: '',
-    status: '',
-    message: '',
-    items: []
-}
-
 var upload = multer({ dest: './dist/assets/uploads/' })
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -42,7 +35,7 @@ router.post('/add', async (req, res) => {
     const _user = await Users.findOne({phone_number: req.body.phone_number});
     if(_user)
     {
-        response = {
+        const response = {
             status_code: 200,
             status: true,
             message: 'return succssfully',
@@ -68,7 +61,7 @@ router.post('/add', async (req, res) => {
         });
         let rs = await user.save();
 
-        response = {
+        const response = {
             status_code: 200,
             status: true,
             message: 'return succssfully',
@@ -92,7 +85,7 @@ router.put('/verify', async (req, res) => {
         }, { new: true })
         
         if (!user){
-            response = {
+           const response = {
                 status_code: 404,
                 status: false,
                 message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
@@ -101,7 +94,7 @@ router.put('/verify', async (req, res) => {
             res.json(response);
         }
         else{
-            response = {
+            const response = {
                 status_code: 200,
                 status: true,
                 message: '',
@@ -111,7 +104,7 @@ router.put('/verify', async (req, res) => {
         }
     }
     else{
-        response = {
+        const response = {
             status_code: 404,
             status: false,
             message: 'خطأ!! في رقم التفعيل',
@@ -133,7 +126,7 @@ router.put('/updateprofile',upload.any(),async (req, res) => {
             city : req.body.city
         }, { new: true }) 
         if (!user){
-            response = {
+            const response = {
                 status_code: 404,
                 status: false,
                 message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
@@ -142,7 +135,7 @@ router.put('/updateprofile',upload.any(),async (req, res) => {
             res.json(response);
         } 
         else{
-            response = {
+            const  response = {
                 status_code: 200,
                 status: true,
                 message: '',
@@ -159,7 +152,7 @@ router.put('/updateprofile',upload.any(),async (req, res) => {
         }, { new: true })
     
         if (!user){
-            response = {
+            const response = {
                 status_code: 404,
                 status: false,
                 message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
@@ -167,7 +160,7 @@ router.put('/updateprofile',upload.any(),async (req, res) => {
             }
             res.json(response);
         }else{
-            response = {
+            const response = {
                 status_code: 200,
                 status: true,
                 message: 'تم تعديل الملف الشخصي',
@@ -200,7 +193,7 @@ router.put('/wallet/:id', auth ,async (req, res) => {
     }, { new: true })
 
     if (!user) {
-        response = {
+        const response = {
             status_code: 404,
             status: true,
             message: 'حدث خطأ الرجاء المحاولة مرة اخرى',
@@ -209,7 +202,7 @@ router.put('/wallet/:id', auth ,async (req, res) => {
         res.json(response);
     }
     else{
-        response = {
+        const response = {
             status_code: 200,
             status: true,
             message: 'تم شحن المحفظة بنجاح',
@@ -224,7 +217,7 @@ router.get('/userprofile/:id', auth ,async (req, res) => {
     const user = await Users.findById(req.params.id);
     if (!user) return res.status(404).send('The given ID was not found.');
    
-    response = {
+    const response = {
         status_code: 200,
         status: true,
         message: '',

@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname,'dist')));
 
 //config.get('db')
 //'mongodb://localhost/liken'
+
 mongoose.connect(config.get('db'), { useNewUrlParser: true })
 .then(()=>('connect to db'))
 .catch(()=>('err'))
