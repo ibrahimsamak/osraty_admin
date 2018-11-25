@@ -37,9 +37,9 @@ app.use('/basket',Basket);
 app.use('/quota',quota);
 // require('./server/startup/prod')(app);
 
-setInterval(function() {
-    http.get("http://likendashboard.herokuapp.com");
-}, 600000); // every 5 minutes (300000)
+// setInterval(function() {
+//     http.get("http://likendashboard.herokuapp.com");
+// }, 600000); // every 5 minutes (300000)
 
 
 app.get('*',(req,res)=>{
