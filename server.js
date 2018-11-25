@@ -23,8 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,'dist')));
 
 //config.get('db')
-
-mongoose.connect('mongodb://localhost/liken' , { useNewUrlParser: true })
+//'mongodb://localhost/liken'
+mongoose.connect(config.get('db'), { useNewUrlParser: true })
 .then(()=>('connect to db'))
 .catch(()=>('err'))
 
@@ -37,9 +37,9 @@ app.use('/basket',Basket);
 app.use('/quota',quota);
 // require('./server/startup/prod')(app);
 
-setInterval(function() {
-    http.get("http://likendashboard.herokuapp.com");
-}, 600000); // every 5 minutes (300000)
+// setInterval(function() {
+//     http.get("http://likendashboard.herokuapp.com");
+// }, 600000); // every 5 minutes (300000)
 
 
 app.get('*',(req,res)=>{
