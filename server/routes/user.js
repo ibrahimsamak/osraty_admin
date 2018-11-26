@@ -44,30 +44,41 @@ router.post('/add', async (req, res) => {
         res.json(response);
     }
     else{
-        let user = new Users({
-            phone_number: req.body.phone_number,
-            verify_code: 1234,
-            full_name: '',
-            email: '',
-            image:'',
-            address: '',
-            lat : req.body.lat,
-            lng : req.body.lng,
-            createAt : new Date(),
-            city : req.body.city,
-            isVerify: false,
-            isBlock: false,
-            wallet:0
-        });
-        let rs = await user.save();
-
-        const response = {
-            status_code: 200,
-            status: true,
-            message: 'return succssfully',
-            items: rs
+        if(_user.isBlock){
+            const response = {
+                status_code: 400,
+                status: false,
+                message: 'تم حظر المستخدم من قبل الادارة',
+                items: []
+            }
+            res.json(response);
         }
-        res.json(response);
+        else{
+            let user = new Users({
+                phone_number: req.body.phone_number,
+                verify_code: 1234,
+                full_name: '',
+                email: '',
+                image:'',
+                address: '',
+                lat : req.body.lat,
+                lng : req.body.lng,
+                createAt : new Date(),
+                city : req.body.city,
+                isVerify: false,
+                isBlock: false,
+                wallet:0
+            });
+            let rs = await user.save();
+    
+            const response = {
+                status_code: 200,
+                status: true,
+                message: 'return succssfully',
+                items: rs
+            }
+            res.json(response);
+        }
     }
 });
 
