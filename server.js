@@ -2,13 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
 const bodyParser = require('body-parser')
-const routes = require('./server/routes/constant');
-const product = require('./server/routes/product');
-const supplierproducts = require('./server/routes/supplierproducts');
-const Adv = require('./server/routes/Advs');
-const User = require('./server/routes/user');
-const Basket = require('./server/routes/basket');
-const quota = require('./server/routes/offerquot');
+// const routes = require('./server/routes/constant');
+// const product = require('./server/routes/product');
+// const supplierproducts = require('./server/routes/supplierproducts');
+// const Adv = require('./server/routes/Advs');
+// const User = require('./server/routes/user');
+// const Basket = require('./server/routes/basket');
+// const quota = require('./server/routes/offerquot');
 
 if(!config.get('jwtPrivateKey')){
     console.error('no token');
