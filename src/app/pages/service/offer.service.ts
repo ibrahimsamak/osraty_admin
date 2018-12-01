@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { appConstant } from './_constant/appConstant';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +18,15 @@ export class OfferService {
         "Access-Control-Allow-Origin": "*"
       }),
     };
-    return this.http.post('/basket/basket',JSON.stringify(conent), httpOptions) 
+    return this.http.post(appConstant.BASE_URL+'/basket/basket',JSON.stringify(conent), httpOptions) 
   }
 
   getBasketData(){
-    return this.http.get('/basket/basket')
+    return this.http.get(appConstant.BASE_URL+'/basket/basket')
   }
 
   getSingBasketData(id){
-    return this.http.get(`/basket/basket/${id}`)
+    return this.http.get(appConstant.BASE_URL+`/basket/basket/${id}`)
   }
 
   DeleteBaskettData(id){
@@ -38,7 +39,7 @@ export class OfferService {
       }),
     };
     
-    return this.http.delete(`/basket/basket/${id}`, httpOptions)
+    return this.http.delete(appConstant.BASE_URL+`/basket/basket/${id}`, httpOptions)
   }
 
   UpdateBaskettData(id,conent){
@@ -51,7 +52,7 @@ export class OfferService {
       }),
     };
   
-    return this.http.put(`/basket/basket/${id}`,JSON.stringify(conent), httpOptions)
+    return this.http.put(appConstant.BASE_URL+`/basket/basket/${id}`,JSON.stringify(conent), httpOptions)
   }
 
 
@@ -64,15 +65,15 @@ export class OfferService {
         "Access-Control-Allow-Origin": "*"
       }),
     };
-    return this.http.post('/quota/quota',JSON.stringify(conent), httpOptions) 
+    return this.http.post(appConstant.BASE_URL+'/quota/quota',JSON.stringify(conent), httpOptions) 
   }
 
   getOfferData(){
-    return this.http.get('/quota/quota')
+    return this.http.get(appConstant.BASE_URL+'/quota/quota')
   }
 
   getSingOfferData(id){
-    return this.http.get(`/quota/quota/${id}`)
+    return this.http.get(appConstant.BASE_URL+`/quota/quota/${id}`)
   }
 
   DeleteOfferData(id){
@@ -85,7 +86,7 @@ export class OfferService {
       }),
     };
     
-    return this.http.delete(`/quota/quota/${id}`, httpOptions)
+    return this.http.delete(appConstant.BASE_URL+`/quota/quota/${id}`, httpOptions)
   }
 
   UpdateOfferData(id,conent){
@@ -98,7 +99,7 @@ export class OfferService {
       }),
     };
   
-    return this.http.put(`/quota/quota/${id}`,JSON.stringify(conent), httpOptions)
+    return this.http.put(appConstant.BASE_URL+`/quota/quota/${id}`,JSON.stringify(conent), httpOptions)
   }
 
 }

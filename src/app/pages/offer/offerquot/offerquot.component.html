@@ -18,13 +18,13 @@
       <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef >الصورة</th>
         <td mat-cell *matCellDef="let element">
-            <img width='70px' height='70px' style="border-radius: 50%;" src="../../../../../assets/uploads/{{element.product_id.image}}" /></td>
+            <img width='70px' height='70px' style="border-radius: 50%;" src="../../../../../assets/uploads/{{element.product_id.product_id.image}}" /></td>
       </ng-container>
     
    
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef  >اسم المنتج</th>
-        <td mat-cell *matCellDef="let element"> {{element.product_id.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.product_id.product_id.name}} </td>
       </ng-container>
     
       <ng-container matColumnDef="suuplier_name">

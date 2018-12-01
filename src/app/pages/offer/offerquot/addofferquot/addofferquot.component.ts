@@ -1,10 +1,10 @@
+import { appConstant } from './../../../service/_constant/appConstant';
 import { Component, OnInit } from '@angular/core';
 import { ConstantService } from '../../../service/constant.service';
 import { OfferService } from '../../../service/offer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuperComponent } from '../../../../_components/SuperComponent/SuperComponent';
 import { ToasterService } from 'angular2-toaster';
-import { appConstant } from '../../../service/_constant/appConstant';
 
 @Component({
   selector: 'ngx-addofferquot',
@@ -49,7 +49,8 @@ export class AddofferquotComponent extends SuperComponent implements OnInit {
           this.offerObj = json
           this.selected_supplier_id = json['supplier_id']
           this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res2) => {
-            this.products = res2 as any[]
+            this.products = res2[appConstant.ITEMS] as any[]
+            console.log(json['product_id']['_id'])
             this.selected_product_id = json['product_id']['_id']
           });
           this.loading = false
@@ -92,13 +93,13 @@ export class AddofferquotComponent extends SuperComponent implements OnInit {
     this.selected_supplier_id = val._id;
     this.loading = true
     this.service.getsupplierproductsBySupplierId(val._id).subscribe((res) => {
-      this.products = res as any[]
+      this.products = res[appConstant.ITEMS] as any[]
       this.loading = false
     });
   }
 
   ProductChanging(val) {
     console.log(val)
-    this.selected_product_id = val.product_id._id;
+    this.selected_product_id = val._id;
   }
 }

@@ -34,6 +34,10 @@ import { BasketComponent } from './offer/basket/basket.component';
 import { OfferquotComponent } from './offer/offerquot/offerquot.component';
 import { AddbasketComponent } from './offer/basket/addbasket/addbasket.component';
 import { AddofferquotComponent } from './offer/offerquot/addofferquot/addofferquot.component';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+
+import { enGbLocale } from 'ngx-bootstrap/locale';
+defineLocale('engb', enGbLocale);
 
 const PAGES_COMPONENTS = [
   PagesComponent,

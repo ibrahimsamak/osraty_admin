@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { appConstant } from './_constant/appConstant';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class UserService {
   constructor(private http:HttpClient) { }
 
   getUserInfo(){
-    return this.http.get('/User/userslist')
+    return this.http.get(appConstant.BASE_URL+'/User/userslist')
   }
 
   BlockUser(id,conent){
@@ -22,7 +23,7 @@ export class UserService {
       }),
     };
     
-    return this.http.put(`/User/block/${id}`,JSON.stringify(conent) ,httpOptions)
+    return this.http.put(appConstant.BASE_URL+`/User/block/${id}`,JSON.stringify(conent) ,httpOptions)
   }
 
   UpdateUserProfile(id,conent){
@@ -35,7 +36,7 @@ export class UserService {
       }),
     };
   
-    return this.http.put(`/User/updateprofile/${id}`,JSON.stringify(conent), httpOptions)
+    return this.http.put(appConstant.BASE_URL+`/User/updateprofile/${id}`,JSON.stringify(conent), httpOptions)
   }
 
   CreateNewUser(conent){
@@ -47,7 +48,7 @@ export class UserService {
         "Access-Control-Allow-Origin": "*"
       }),
     };
-    return this.http.post('/User/add',JSON.stringify(conent), httpOptions) 
+    return this.http.post(appConstant.BASE_URL+'/User/add',JSON.stringify(conent), httpOptions) 
   }
 
   reSendCode(id){

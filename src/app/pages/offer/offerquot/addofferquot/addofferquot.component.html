@@ -20,7 +20,7 @@
             <div class="form-group col-md-12">
               <label for="inputEmail4">المنتج</label>
               <ng-select name="dd" [items]="products" bindLabel="product_id.name" dropdownPosition='top'
-              bindValue="product_id._id" placeholder="اختر المنتج " [(ngModel)]="selected_product_id"
+              bindValue="_id" placeholder="اختر المنتج " [(ngModel)]="selected_product_id"
               #selectedproductid="ngModel" (change)="ProductChanging($event)" required [disabled]="!selectedSupplier">
             </ng-select>
             </div>

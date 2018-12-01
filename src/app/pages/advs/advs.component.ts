@@ -25,7 +25,9 @@ export class AdvsComponent extends SuperComponent implements OnInit {
     image: '',
     price_before: 0,
     price_after: 0,
-    type: this.selectedValue
+    type: this.selectedValue,
+    supplier_id: '',
+    product_id: ''
   }
 
   settings = {
@@ -100,6 +102,10 @@ export class AdvsComponent extends SuperComponent implements OnInit {
       }
     }
   };
+  suppliers = [];
+  products = [];
+  selected_supplier_id;
+  selected_product_id;
 
   source: LocalDataSource = new LocalDataSource();
   items: any[];
@@ -112,25 +118,36 @@ export class AdvsComponent extends SuperComponent implements OnInit {
     private route: ActivatedRoute,
     private toasterService: ToasterService,
     private router: Router) {
-      super(route, toasterService, router);
+    super(route, toasterService, router);
     if (this.settings.columns["_id"].hasOwnProperty("show")) {
       if (this.settings.columns["_id"].show == false) {
         delete this.settings.columns["_id"];
       }
     }
+
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.loading = true;
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'] == undefined ? null : params['id'];
-        this.service.getSingleAdvData(this.id).subscribe(x => {
-          this.Adv = x as any;
-          this.selectedValue = x['type'] as any
-          this.isEdit = true;
-          this.loading = false;
-        });
-      this.loading = false;
+      this.service.getSupplierData().subscribe((res) => {
+        this.suppliers = res as any[];
+        if (this.id) {
+          this.service.getSingleAdvData(this.id).subscribe(x => {
+            this.Adv = x as any;
+            this.selectedValue = x['type'] as any
+            this.selected_supplier_id = x['supplier_id']
+            this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res2) => {
+              this.products = res2[appConstant.ITEMS] as any[]
+              this.selected_product_id = x['product_id']['_id']
+            });
+            this.isEdit = true;
+            this.loading = false;
+
+          });
+        }
+      })
     });
     this.getData()
   }
@@ -190,7 +207,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
             image: '',
             price_before: 0,
             price_after: 0,
-            type: '0'
+            type: '0', supplier_id : '' , product_id:''
           }
           this.router.navigate(['/pages/adv/AddAdv/']);
         }, err => {
@@ -206,6 +223,8 @@ export class AdvsComponent extends SuperComponent implements OnInit {
 
   upload(category) {
     this.Adv.type = this.selectedValue;
+    this.Adv.supplier_id = this.selected_supplier_id;
+    this.Adv.product_id = this.selected_product_id;
 
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
@@ -227,7 +246,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
             image: '',
             type: 'اعلان منتج',
             price_after: 0,
-            price_before: 0
+            price_before: 0,supplier_id : '' , product_id:''
           }
           this.uploader.clearQueue();
           this.resetfile();
@@ -244,7 +263,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
             image: '',
             type: '0',
             price_after: 0,
-            price_before: 0
+            price_before: 0,supplier_id : '' , product_id:''
           }
           this.uploader.clearQueue();
           this.resetfile();
@@ -265,5 +284,19 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   onChange(val) {
     this.selectedValue = val
     console.log(this.selectedValue)
+  }
+
+  SupplierChanging(val) {
+    this.selected_supplier_id = val._id;
+    this.loading = true
+    this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res) => {
+      this.products = res[appConstant.ITEMS] as any[]
+      this.loading = false
+    });
+  }
+
+  ProductChanging(val) {
+    console.log(val)
+    this.selected_product_id = val.product_id._id;
   }
 }

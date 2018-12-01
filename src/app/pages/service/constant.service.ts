@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { appConstant } from './_constant/appConstant';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ConstantService {
 
 
     getDeliveryData(){
-      return this.http.get('/constant/delivery')
+      return this.http.get(appConstant.BASE_URL+'/constant/delivery')
     }
 
     DeleteDeliveryData(id){
@@ -23,7 +24,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/constant/delivery/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/constant/delivery/${id}`, httpOptions)
     }
 
     UpdateDeliveryData(id,conent){
@@ -36,7 +37,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/constant/delivery/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/constant/delivery/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     CreateDeliveryData(conent){
@@ -48,12 +49,12 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/constant/delivery',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/constant/delivery',JSON.stringify(conent), httpOptions) 
     }
 
 
     getDeliveryOptionsData(){
-      return this.http.get('/constant/DeliveryOption')
+      return this.http.get(appConstant.BASE_URL+'/constant/DeliveryOption')
     }
 
     DeleteDeliveryOptionsData(id){
@@ -66,7 +67,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/constant/DeliveryOption/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/constant/DeliveryOption/${id}`, httpOptions)
     }
 
     UpdateDeliveryOptionsData(id,conent){
@@ -79,7 +80,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/constant/DeliveryOption/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/constant/DeliveryOption/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     CreateDeliveryOptionsData(conent){
@@ -91,11 +92,11 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/constant/DeliveryOption',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/constant/DeliveryOption',JSON.stringify(conent), httpOptions) 
     }
 
     getBuyUnitsData(){
-      return this.http.get('/constant/BuyUnits')
+      return this.http.get(appConstant.BASE_URL+'/constant/BuyUnits')
     }
 
     DeleteBuyUnitsData(id){
@@ -108,7 +109,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/constant/BuyUnits/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/constant/BuyUnits/${id}`, httpOptions)
     }
 
     UpdateBuyUnitsData(id,conent){
@@ -121,7 +122,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/constant/BuyUnits/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/constant/BuyUnits/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     CreateBuyUnitsData(conent){
@@ -133,11 +134,11 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/constant/BuyUnits',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/constant/BuyUnits',JSON.stringify(conent), httpOptions) 
     }
 
     getBuyOptionsData(){
-      return this.http.get('/constant/BuyOptions')
+      return this.http.get(appConstant.BASE_URL+'/constant/BuyOptions')
     }
 
     DeleteBuyOptionsData(id){
@@ -150,7 +151,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/constant/BuyOptions/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/constant/BuyOptions/${id}`, httpOptions)
     }
 
     UpdateBuyOptionsData(id,conent){
@@ -163,7 +164,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/constant/BuyOptions/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/constant/BuyOptions/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     CreateBuyOptionsData(conent){
@@ -175,12 +176,12 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/constant/BuyOptions',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/constant/BuyOptions',JSON.stringify(conent), httpOptions) 
     }
 
 
     getContactOptionData(){
-      return this.http.get('/constant/ContactOption')
+      return this.http.get(appConstant.BASE_URL+'/constant/ContactOption')
     }
 
     DeleteContactOptionData(id){
@@ -193,7 +194,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/constant/ContactOption/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/constant/ContactOption/${id}`, httpOptions)
     }
 
     UpdateContactOptionData(id,conent){
@@ -206,7 +207,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/constant/ContactOption/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/constant/ContactOption/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     CreateContactOptionData(conent){
@@ -218,11 +219,11 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/constant/ContactOption',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/constant/ContactOption',JSON.stringify(conent), httpOptions) 
     }
 
     getSocialOptionData(){
-      return this.http.get('/constant/SocialOption')
+      return this.http.get(appConstant.BASE_URL+'/constant/SocialOption')
     }
 
     DeleteSocialOptionData(id){
@@ -235,7 +236,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/constant/SocialOption/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/constant/SocialOption/${id}`, httpOptions)
     }
 
     UpdateSocialOptionData(id,conent){
@@ -248,7 +249,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/constant/SocialOption/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/constant/SocialOption/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     CreateSocialOptionData(conent){
@@ -260,16 +261,16 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/constant/SocialOption',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/constant/SocialOption',JSON.stringify(conent), httpOptions) 
     }
 
 
     getStaticPagenData(){
-      return this.http.get('/constant/staticpage')
+      return this.http.get(appConstant.BASE_URL+'/constant/staticpage')
     }
 
     getSingleStaticPagenData(id){
-      return this.http.get(`/constant/staticpage/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/constant/staticpage/${id}`)
     }
 
     DeleteStaticPageData(id){
@@ -282,7 +283,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/constant/staticpage/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/constant/staticpage/${id}`, httpOptions)
     }
 
     UpdateStaticPageData(id,conent){
@@ -295,7 +296,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/constant/staticpage/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/constant/staticpage/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     CreateStaticPageData(conent){
@@ -307,7 +308,7 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/constant/staticpage',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/constant/staticpage',JSON.stringify(conent), httpOptions) 
     }
 
   
@@ -320,15 +321,15 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/product/category',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/product/category',JSON.stringify(conent), httpOptions) 
     }
 
     getCategoryData(){
-      return this.http.get('/product/category')
+      return this.http.get(appConstant.BASE_URL+'/product/category')
     }
 
     getSingleCategoryData(id){
-      return this.http.get(`/product/category/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/product/category/${id}`)
     }
 
     DeleteCategoryData(id){
@@ -341,7 +342,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/product/category/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/product/category/${id}`, httpOptions)
     }
 
     UpdateCategoryData(id,conent){
@@ -354,7 +355,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/product/category/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/product/category/${id}`,JSON.stringify(conent), httpOptions)
     }
 
   
@@ -367,19 +368,19 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/product/subcategory',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/product/subcategory',JSON.stringify(conent), httpOptions) 
     }
 
     getSubCategoryData(){
-      return this.http.get('/product/subcategory')
+      return this.http.get(appConstant.BASE_URL+'/product/subcategory')
     }
 
     getSubCategoryDataByCategoryId(id){
-      return this.http.get(`/product/subcategorybycategoryid/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/product/subcategorybycategoryid/${id}`)
     }
 
     getSingleSubCategoryData(id){
-      return this.http.get(`/product/subcategory/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/product/subcategory/${id}`)
     }
 
     DeleteSubCategoryData(id){
@@ -392,7 +393,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/product/subcategory/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/product/subcategory/${id}`, httpOptions)
     }
 
     UpdateSubCategoryData(id,conent){
@@ -405,7 +406,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/product/subcategory/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/product/subcategory/${id}`,JSON.stringify(conent), httpOptions)
     }
 
 
@@ -418,15 +419,15 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/product/supplier',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/product/supplier',JSON.stringify(conent), httpOptions) 
     }
 
     getSupplierData(){
-      return this.http.get('/product/supplier')
+      return this.http.get(appConstant.BASE_URL+'/product/supplier')
     }
 
     getSingleSupplierData(id){
-      return this.http.get(`/product/supplier/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/product/supplier/${id}`)
     }
 
     DeleteSupplierData(id){
@@ -439,7 +440,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/product/supplier/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/product/supplier/${id}`, httpOptions)
     }
 
     UpdateSupplierData(id,conent){
@@ -452,7 +453,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/product/supplier/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/product/supplier/${id}`,JSON.stringify(conent), httpOptions)
     }
 
 
@@ -465,19 +466,19 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/product/product',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/product/product',JSON.stringify(conent), httpOptions) 
     }
 
     getProductData(){
-      return this.http.get('/product/product')
+      return this.http.get(appConstant.BASE_URL+'/product/product')
     }
 
     getProductDataBySubCategoryId(id){
-      return this.http.get(`/product/productbysubcategoryid/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/product/productbysubcategoryid/${id}`)
     }
 
     getSingleProductData(id){
-      return this.http.get(`/product/product/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/product/product/${id}`)
     }
 
     DeleteProductData(id){
@@ -490,7 +491,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/product/product/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/product/product/${id}`, httpOptions)
     }
 
     UpdateProductData(id,conent){
@@ -503,7 +504,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/product/product/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/product/product/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     DeleteOneImage(img){
@@ -516,7 +517,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/product/product/delete/${img}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/product/product/delete/${img}`, httpOptions)
     }
 
 
@@ -529,15 +530,15 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/Supplier/supplierproducts',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/Supplier/supplierproducts',JSON.stringify(conent), httpOptions) 
     }
 
     getSupplierProductData(){
-      return this.http.get('/Supplier/supplierproducts')
+      return this.http.get(appConstant.BASE_URL+'/Supplier/supplierproducts')
     }
 
     getSingleSupplierProductData(id){
-      return this.http.get(`/Supplier/supplierproducts/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/Supplier/supplierproducts/${id}`)
     }
 
     DeleteSupplierProductData(id){
@@ -550,7 +551,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/Supplier/supplierproducts/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/Supplier/supplierproducts/${id}`, httpOptions)
     }
 
     UpdateSupplierProductData(id,conent){
@@ -563,7 +564,7 @@ export class ConstantService {
         }),
       };
     
-      return this.http.put(`/Supplier/supplierproducts/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/Supplier/supplierproducts/${id}`,JSON.stringify(conent), httpOptions)
     }
 
     getSupplierProductBySeacrhData(key){
@@ -575,15 +576,15 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/Supplier/supplierproductsSearch',JSON.stringify(key), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/Supplier/supplierproductsSearch',JSON.stringify(key), httpOptions) 
     }
 
     getSupplierProductBySubCategory(id,supid){
-      return this.http.get(`/Supplier/supplierproductsBySubCategoryId/${id}/${supid}`) 
+      return this.http.get(appConstant.BASE_URL+`/Supplier/supplierproductsBySubCategoryId/${id}/${supid}`) 
     }
 
     getsupplierproductsBySupplierId(id){
-      return this.http.get(`/Supplier/supplierproductsBySupplierId/${id}`) 
+      return this.http.get(appConstant.BASE_URL+`/Supplier/supplierproductsBySupplierId/${id}`) 
     }
 
     CreateAdvtData(conent){
@@ -595,15 +596,15 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post('/Adv/adv',JSON.stringify(conent), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/Adv/adv',JSON.stringify(conent), httpOptions) 
     }
 
     getAdvData(){
-      return this.http.get('/Adv/adv')
+      return this.http.get(appConstant.BASE_URL+'/Adv/adv')
     }
 
     getSingleAdvData(id){
-      return this.http.get(`/Adv/adv/${id}`)
+      return this.http.get(appConstant.BASE_URL+`/Adv/adv/${id}`)
     }
 
     DeleteAdvData(id){
@@ -616,7 +617,7 @@ export class ConstantService {
         }),
       };
       
-      return this.http.delete(`/Adv/adv/${id}`, httpOptions)
+      return this.http.delete(appConstant.BASE_URL+`/Adv/adv/${id}`, httpOptions)
     }
 
     UpdateAdvData(id,conent){
@@ -628,6 +629,6 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.put(`/Adv/adv/${id}`,JSON.stringify(conent), httpOptions)
+      return this.http.put(appConstant.BASE_URL+`/Adv/adv/${id}`,JSON.stringify(conent), httpOptions)
     }
 }

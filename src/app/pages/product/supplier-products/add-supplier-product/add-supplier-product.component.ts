@@ -9,6 +9,7 @@ import { FormatDateService } from '../../../service/custom/format-date.service';
 import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { SupplierProduct } from '../../../../_models/supplier-product';
 import { BsDatepickerConfig } from "ngx-bootstrap";
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { format } from 'date-fns';
 import { SuperComponent } from '../../../../_components/SuperComponent/SuperComponent';
 
@@ -49,10 +50,12 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
     private toasterService: ToasterService,
     private router: Router,
     private dateFormatPipe: FormatDateService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private _localeService: BsLocaleService) {
     super(route, toasterService, router);
     this.myForm = SupplierProduct.buildForm(fb);
     this.model = new SupplierProduct(null, null, null, null, null, null, null);
+    this._localeService.use('engb');
   }
 
 
@@ -81,7 +84,6 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
         this.prices.controls = [];
         var x = res2 as any[];
         x.forEach((i: any) => {
-          console.log(i);
           this.prices.push(this.createItem(i._id, i.name, ''));
         });
         return this.service.getBuyOptionsData()
@@ -99,7 +101,7 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
           this.isEdit = true;
           // this.model = Response as any
           this.service.getSingleSupplierProductData(this.id)
-            .subscribe(response2 => {
+            .subscribe(response2 => {            
               this.model = response2 as any;
               this.productPrices = response2['prices'];
 
@@ -115,48 +117,42 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
                 }
               }
 
+              this.myForm.patchValue({ supplier_id: response2['supplier_id']}, { onlySelf: true });
+              const _item = this.suppliers.find((spp_id) => {
+                spp_id.ـid == response2['supplier_id'];
+                return spp_id;
+              });
+              this.myForm.get('supplier_id').patchValue(_item);
+
+              this.myForm.patchValue({category_id: response2['category_id']}, { onlySelf: true });
+              const _item1 = this.categories.find((x) => {
+                x.ـid == response2['category_id'];
+                return x;
+              });
+              this.myForm.get('category_id').patchValue(_item1);
+
               this.service.getSubCategoryDataByCategoryId(response2['category_id']).subscribe(res1 => {
-                console.log(res1)
                 this.sub_categories = res1 as any[];
-               
-                this.myForm.patchValue({sub_category_id: response2['sub_category_id']}, { onlySelf: true });
+
+                this.myForm.patchValue({ sub_category_id: response2['sub_category_id'] }, { onlySelf: true });
                 const _item3 = this.sub_categories.find((x) => {
                   x.ـid == response2['sub_category_id'];
                   return x;
                 });
                 this.myForm.get('sub_category_id').patchValue(_item3);
 
-                  this.service.getProductDataBySubCategoryId(response2['sub_category_id']).subscribe(res3 => {
-                    console.log(res3)
-                    this.products = res3 as any[]
+                this.service.getProductDataBySubCategoryId(response2['sub_category_id']).subscribe(res3 => {
+                  this.products = res3 as any[]
 
-                    this.myForm.patchValue({product_id: response2['product_id']}, { onlySelf: true });
-                    const _item2 = this.products.find((x) => {
-                      x.ـid == response2['product_id'];
-                      return x;
-                    });
-                    this.loading = false;
-                    this.myForm.get('product_id').patchValue(_item2);
+                  this.myForm.patchValue({ product_id: response2['product_id'] }, { onlySelf: true });
+                  const _item2 = this.products.find((x) => {
+                    x.ـid == response2['product_id'];
+                    return x;
                   });
+                  this.myForm.get('product_id').patchValue(_item2);
+                  this.loading = false;
+                });
               });
-
-              this.myForm.patchValue({
-                supplier_id: response2['supplier_id']
-              }, { onlySelf: true });
-              const _item = this.suppliers.find((x) => {
-                x.ـid == response2['supplier_id'];
-                return x;
-              });
-              this.myForm.get('supplier_id').patchValue(_item);
-
-              this.myForm.patchValue({
-                category_id: response2['category_id']
-              }, { onlySelf: true });
-              const _item1 = this.categories.find((x) => {
-                x.ـid == response2['category_id'];
-                return x;
-              });
-              this.myForm.get('category_id').patchValue(_item1);
             })
         }
       });
@@ -184,6 +180,7 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
     this.myForm.value.dt_end = format(this.myForm.value.dt_end, 'YYYY-MM-DD');
     this.myForm.value.supplier_id = this.myForm.value.supplier_id._id;
     this.myForm.value.category_id = this.myForm.value.category_id._id;
+    this.myForm.value.sub_category_id = this.myForm.value.sub_category_id._id;
     this.myForm.value.product_id = this.myForm.value.product_id._id;
     this.myForm.value.prices = this.myForm.value.prices.filter((i) => {
       return i.checked == true;
@@ -202,25 +199,22 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
       });
     } else {
       this.service.CreateSupplierProductData(obj).subscribe(x => {
-        this.myForm.reset();
+        this.myForm.reset()
         this.showToast('success', 'نجاح!!', 'تمت اضافة المنتج بنجاح');
       }, err => {
-        this.showToast('error', 'خطأ!!', err.error);
+        this.showToast('error', 'خطأ!!', err.error['message']);
       });
     }
   }
 
   onChange(event, cat: any, price: HTMLInputElement, i) {
     if (event.target.checked) {
-      console.log(event, cat, price.value)
       this.priceItem = { buy_unit_id: cat._id, buy_unit_name: cat.name, price: price.value }
       this.model.prices.push(this.priceItem)
     }
     else {
-      console.log(event, cat)
       this.model.prices.splice(i, 1)
     }
-    console.log(this.model.prices);
   }
   onChangeType(event, cat: any, i) {
     this.model.prices.find((x) => x.buy_unit_id == cat._id).price = event.value;
@@ -258,7 +252,6 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
 
     this.loading = true
     this.service.getSubCategoryDataByCategoryId(item._id).subscribe((res) => {
-      console.log(res, item._id)
       this.sub_categories = res as any
       if (this.sub_categories.length > 0) {
         this.myForm.get('sub_category_id').enable();
