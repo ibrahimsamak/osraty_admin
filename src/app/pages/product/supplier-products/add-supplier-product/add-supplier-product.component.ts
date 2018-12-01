@@ -55,7 +55,7 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
     super(route, toasterService, router);
     this.myForm = SupplierProduct.buildForm(fb);
     this.model = new SupplierProduct(null, null, null, null, null, null, null);
-    // this._localeService.use('engb');
+    this._localeService.use('esUsLocale');
   }
 
 
