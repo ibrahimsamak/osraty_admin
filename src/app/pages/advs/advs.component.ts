@@ -140,7 +140,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
             this.selected_supplier_id = x['supplier_id']
             this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res2) => {
               this.products = res2[appConstant.ITEMS] as any[]
-              this.selected_product_id = x['product_id']['_id']
+              this.selected_product_id = x['product_id']
             });
             this.isEdit = true;
             this.loading = false;
