@@ -19,7 +19,7 @@ import { SuperComponent } from '../../../../_components/SuperComponent/SuperComp
   styleUrls: ['./add-supplier-product.component.scss']
 })
 export class AddSupplierProductComponent extends SuperComponent implements OnInit {
-  bsConfig: Partial<BsDatepickerConfig> = { containerClass: 'theme-dark-blue', dateInputFormat: 'Y-MM-DD' };
+  bsConfig: Partial<BsDatepickerConfig> = { containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' };
   subscripe: Subscription;
 
   products = [];

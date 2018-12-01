@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname,'dist')));
 
 //config.get('db')
 //'mongodb://localhost/liken'
-
+//mongodb://db_user:db_user1@ds161700.mlab.com:61700/liken
 mongoose.connect('mongodb://db_user:db_user1@ds161700.mlab.com:61700/liken', { useNewUrlParser: true })
 .then(()=>('connect to db'))
 .catch(()=>('err'))
