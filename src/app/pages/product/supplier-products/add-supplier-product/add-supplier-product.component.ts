@@ -19,7 +19,7 @@ import { SuperComponent } from '../../../../_components/SuperComponent/SuperComp
   styleUrls: ['./add-supplier-product.component.scss']
 })
 export class AddSupplierProductComponent extends SuperComponent implements OnInit {
-  bsConfig: Partial<BsDatepickerConfig> = { containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' };
+  bsConfig: Partial<BsDatepickerConfig> = { containerClass: 'theme-dark-blue',showWeekNumbers: false, dateInputFormat: 'DD/MM/YYYY' };
   subscripe: Subscription;
 
   products = [];
@@ -55,7 +55,7 @@ export class AddSupplierProductComponent extends SuperComponent implements OnIni
     super(route, toasterService, router);
     this.myForm = SupplierProduct.buildForm(fb);
     this.model = new SupplierProduct(null, null, null, null, null, null, null);
-    this._localeService.use('engb');
+    // this._localeService.use('engb');
   }
 
 
