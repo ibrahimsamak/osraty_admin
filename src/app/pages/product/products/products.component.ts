@@ -61,7 +61,7 @@ export class ProductsComponent extends SuperComponent implements OnInit {
         filter: false,
         valuePrepareFunction: (image: string) => {
           return `
-             <img width='70px' height='70px' src="../../../../../assets/uploads/${image}" />
+             <img width='70px' height='70px' src="${image}" />
         `;
         },
       },

@@ -67,7 +67,7 @@ export class SupplierComponent implements OnInit {
         filter: false,
         valuePrepareFunction: (image: string) => {
           return `
-             <img width='70px' height='70px' src="../../../../../assets/uploads/${image}" />
+             <img width='70px' height='70px' src="${image}" />
         `;
         },
       },
@@ -197,47 +197,45 @@ export class SupplierComponent implements OnInit {
   upload(supplier) {
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      var res = JSON.parse(response);
-      var resArr = res.filename;
-      for (let key in resArr[0]) {
-        if (key == 'filename') {
-          let value = resArr[0][key];
-          this.supplier.image = value
-        }
-      }
+      console.log(item.file.rawFile)
+      this.service.AddImagetoServer(item.file.rawFile).subscribe((res) => {
+        const url = res['result']['url']
+        this.supplier.image = url;
 
-      this.supplier.name = supplier.name;
-      this.supplier.details = supplier.details;
-      if (this.id) {
-        this.service.UpdateSupplierData(this.id, this.supplier).subscribe(x => {
-          this.supplier = {
-            name: '',
-            image: '',
-            details: ''
-          }
-          this.uploader.clearQueue();
-          this.resetfile();
-          this.router.navigate(['/pages/product/supplier/']);
-        }, (err) => {
-          this.showToast('error', 'خطأ', err.error);
-        });
-      }
-      else {
-        this.loading = true;
-        this.service.CreateSupplierData(this.supplier).subscribe(x => {
-          this.supplier = {
-            name: '',
-            image: '',
-            details: ''
-          }
-          this.uploader.clearQueue();
-          this.loading = false;
-          this.resetfile();
-          this.getData();
-        }, err => {
-          this.showToast('error', 'خطأ', err.error);
-        });
-      }
+        this.supplier.name = supplier.name;
+        this.supplier.details = supplier.details;
+        if (this.id) {
+          this.service.UpdateSupplierData(this.id, this.supplier).subscribe(x => {
+            this.supplier = {
+              name: '',
+              image: '',
+              details: ''
+            }
+            this.uploader.clearQueue();
+            this.resetfile();
+            this.router.navigate(['/pages/product/supplier/']);
+          }, (err) => {
+            this.showToast('error', 'خطأ', err.error);
+          });
+        }
+        else {
+          this.loading = true;
+          this.service.CreateSupplierData(this.supplier).subscribe(x => {
+            this.supplier = {
+              name: '',
+              image: '',
+              details: ''
+            }
+            this.uploader.clearQueue();
+            this.loading = false;
+            this.resetfile();
+            this.getData();
+          }, err => {
+            this.showToast('error', 'خطأ', err.error);
+          });
+        }
+        
+      });
     }
   }
 

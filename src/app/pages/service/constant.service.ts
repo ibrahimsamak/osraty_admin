@@ -536,6 +536,9 @@ export class ConstantService {
     getSupplierProductData(){
       return this.http.get(appConstant.BASE_URL+'/Supplier/supplierproducts')
     }
+    getSupplierProductDataPagination(pageIndex , pageSize){
+      return this.http.get(appConstant.BASE_URL+'/Product/pageSample?page='+pageIndex+'&limit='+pageSize)
+    }
 
     getSingleSupplierProductData(id){
       return this.http.get(appConstant.BASE_URL+`/Supplier/supplierproducts/${id}`)
@@ -567,7 +570,7 @@ export class ConstantService {
       return this.http.put(appConstant.BASE_URL+`/Supplier/supplierproducts/${id}`,JSON.stringify(conent), httpOptions)
     }
 
-    getSupplierProductBySeacrhData(key){
+    getSupplierProductBySeacrhData(key ,page,limit){
       const httpOptions = {
         headers: new HttpHeaders({      
           'Content':"application/json",
@@ -576,7 +579,7 @@ export class ConstantService {
           "Access-Control-Allow-Origin": "*"
         }),
       };
-      return this.http.post(appConstant.BASE_URL+'/Supplier/supplierproductsSearch',JSON.stringify(key), httpOptions) 
+      return this.http.post(appConstant.BASE_URL+'/Supplier/supplierproductsSearch?page='+page+'&limit='+limit,JSON.stringify(key), httpOptions) 
     }
 
     getSupplierProductBySubCategory(id,supid){
@@ -630,5 +633,21 @@ export class ConstantService {
         }),
       };
       return this.http.put(appConstant.BASE_URL+`/Adv/adv/${id}`,JSON.stringify(conent), httpOptions)
+    }
+
+
+
+    AddImagetoServer(uploadFile){
+      const httpOptions = {
+        headers: new HttpHeaders({      
+          'Content':"multipart/form-data",
+          // 'Accept': 'application/json',
+          // 'Content-Type': 'application/json; charset=utf-8',
+          "Access-Control-Allow-Origin": "*"
+        }),
+      };
+      const formData:FormData = new FormData();
+      formData.append('filename',uploadFile)
+      return this.http.post(appConstant.BASE_URL+`/Product/file_upload`,formData, httpOptions)
     }
 }

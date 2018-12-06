@@ -78,7 +78,7 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
         type: 'html',
         filter: false,
         valuePrepareFunction: (image: string) => {
-          return `<img width='70px' height='70px' src="../../../../../assets/uploads/${image}" />`;
+          return `<img width='70px' height='70px' src="${image}" />`;
         }
       },
       name: {
@@ -122,27 +122,27 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
         this.loading = false;
 
         this.id = this.route.snapshot.paramMap.get('id');
-        if(this.id){
+        if (this.id) {
           this.isEdit = true;
           this.loading = true;
-          this.offer.getSingBasketData(this.id).subscribe((Response)=>{
-            const res =  Response[appConstant.ITEMS] as any
-            this.basket.image = res['image'] 
-            this.basket.name = res['name'] 
-            this.basket.price = res['price'] 
-            this.basket.supplier_id = res['supplier_id'] 
-            this.selected_supplier_id = res['supplier_id'] 
+          this.offer.getSingBasketData(this.id).subscribe((Response) => {
+            const res = Response[appConstant.ITEMS] as any
+            this.basket.image = res['image']
+            this.basket.name = res['name']
+            this.basket.price = res['price']
+            this.basket.supplier_id = res['supplier_id']
+            this.selected_supplier_id = res['supplier_id']
             const arr = res['products'] as any[]
             arr.forEach(element => {
               const basket = {
                 product_id: element.product_id._id,
                 name: element.product_id.name,
-                image:  element.product_id.image,
+                image: element.product_id.image,
                 qty: element.qty
               }
               console.log(element)
               this.basket.products.push(basket)
-            });    
+            });
             this.source.load(this.basket.products as any[]);
             this.loading = false
           })
@@ -183,41 +183,38 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
   upload(_basket) {
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      var res = JSON.parse(response);
-      var resArr = res.filename;
-      for (let key in resArr[0]) {
-        if (key == 'filename') {
-          let value = resArr[0][key];
-          this.basket.image = value
-        }
-      }
+      console.log(item.file.rawFile)
+      this.service.AddImagetoServer(item.file.rawFile).subscribe((res) => {
+        const url = res['result']['url']
+        this.basket.image = url;
 
-      this.basket.name = _basket.name
-      this.basket.supplier_id = this.selected_supplier_id
-      this.basket.price = _basket.price
-      
-      if (this.id)
-      {
-        this.offer.UpdateBaskettData(this.id, this.basket).subscribe(x => {
-          this.resetForm()
-          this.uploader.clearQueue();
-          this.router.navigate(['/pages/basket/basket']);
-        }, (err) => {
-          this.showToast('error', 'خطأ', err.error);
-        });
-      }
-      else {
-        this.loading = true;
-        this.offer.CreateBasketData(this.basket).subscribe(x => {
-          this.resetForm()
-          this.loading = false;
-          this.uploader.clearQueue();
-          this.resetfile();
-          this.showToast('success', 'نجاح', 'تمت اضافة السلة بنجاح');
-        }, err => {
-          this.showToast('error', 'خطأ', err.error);
-        });
-      }
+
+        this.basket.name = _basket.name
+        this.basket.supplier_id = this.selected_supplier_id
+        this.basket.price = _basket.price
+
+        if (this.id) {
+          this.offer.UpdateBaskettData(this.id, this.basket).subscribe(x => {
+            this.resetForm()
+            this.uploader.clearQueue();
+            this.router.navigate(['/pages/basket/basket']);
+          }, (err) => {
+            this.showToast('error', 'خطأ', err.error);
+          });
+        }
+        else {
+          this.loading = true;
+          this.offer.CreateBasketData(this.basket).subscribe(x => {
+            this.resetForm()
+            this.loading = false;
+            this.uploader.clearQueue();
+            this.resetfile();
+            this.showToast('success', 'نجاح', 'تمت اضافة السلة بنجاح');
+          }, err => {
+            this.showToast('error', 'خطأ', err.error);
+          });
+        }
+      });
     }
   }
 
@@ -228,10 +225,10 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
 
   tempAdd(content) {
     let basketProduct = {
-        product_id: this.selected_product._id,
-        name: this.selected_product.name,
-        image: this.selected_product.image,
-        qty: content
+      product_id: this.selected_product._id,
+      name: this.selected_product.name,
+      image: this.selected_product.image,
+      qty: content
     }
 
     this.basket.products.push(basketProduct)
@@ -247,18 +244,18 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
         this.upload(content);
       }
       else {
-        
+
         let conent = {
           name: content.name,
           image: content.image,
           supplier_id: this.selected_supplier_id,
           price: content.price,
-          products:this.basket.products
+          products: this.basket.products
         }
         console.log(content)
         this.offer.UpdateBaskettData(this.id, conent).subscribe(x => {
           this.router.navigate(['/pages/basket/basket']);
-        },err=>{
+        }, err => {
           this.showToast('error', 'خطأ', err.error);
         });
       }
@@ -268,7 +265,7 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
     }
   }
 
-  onDeleteConfirm(event){
+  onDeleteConfirm(event) {
     if (window.confirm('هل أنت متأكد من حذف العنصر؟')) {
       const index = event.source.data.indexOf(event.data);
       this.basket.products.splice(index, 1);
@@ -280,7 +277,7 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
     }
   }
 
-  resetForm(){
+  resetForm() {
     this.basket = {
       name: '',
       image: '',
@@ -288,7 +285,7 @@ export class AddbasketComponent extends SuperComponent implements OnInit {
       supplier_id: '',
       products: []
     }
-    this.selected_supplier_id  = ''
+    this.selected_supplier_id = ''
     this.selected_product_id = ''
     this.selected_category_id = ''
     this.selected_sub_category_id = ''

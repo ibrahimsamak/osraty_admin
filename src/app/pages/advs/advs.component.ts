@@ -71,7 +71,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
         filter: false,
         valuePrepareFunction: (image: string) => {
           return `
-             <img width='70px' height='70px' src="../../../../../assets/uploads/${image}" />
+             <img width='70px' height='70px' src="${image}" />
         `;
         },
       },
@@ -207,7 +207,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
             image: '',
             price_before: 0,
             price_after: 0,
-            type: '0', supplier_id : '' , product_id:''
+            type: '0', supplier_id: '', product_id: ''
           }
           this.router.navigate(['/pages/adv/AddAdv/']);
         }, err => {
@@ -228,51 +228,47 @@ export class AdvsComponent extends SuperComponent implements OnInit {
 
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      var res = JSON.parse(response);
-      var resArr = res.filename;
-      for (let key in resArr[0]) {
-        if (key == 'filename') {
-          let value = resArr[0][key];
-          this.Adv.image = value
-        }
-      }
-      console.log(this.Adv);
+      console.log(item.file.rawFile)
+      this.service.AddImagetoServer(item.file.rawFile).subscribe((res) => {
+        const url = res['result']['url']
+        this.Adv.image = url;
 
-      if (this.id) {
-        this.service.UpdateAdvData(this.id, this.Adv).subscribe(x => {
-          this.Adv = {
-            name: '',
-            details: '',
-            image: '',
-            type: 'اعلان منتج',
-            price_after: 0,
-            price_before: 0,supplier_id : '' , product_id:''
-          }
-          this.uploader.clearQueue();
-          this.resetfile();
-          this.router.navigate(['/pages/adv/AddAdv/']);
-        }, (err) => {
-          this.showToast('error', 'خطأ', err.error);
-        });
-      }
-      else {
-        this.service.CreateAdvtData(this.Adv).subscribe(x => {
-          this.Adv = {
-            name: '',
-            details: '',
-            image: '',
-            type: '0',
-            price_after: 0,
-            price_before: 0,supplier_id : '' , product_id:''
-          }
-          this.uploader.clearQueue();
-          this.resetfile();
-          this.getData();
-        }, err => {
-          console.log(err.error);
-          this.showToast('error', 'خطأ', err.error);
-        });
-      }
+        if (this.id) {
+          this.service.UpdateAdvData(this.id, this.Adv).subscribe(x => {
+            this.Adv = {
+              name: '',
+              details: '',
+              image: '',
+              type: 'اعلان منتج',
+              price_after: 0,
+              price_before: 0, supplier_id: '', product_id: ''
+            }
+            this.uploader.clearQueue();
+            this.resetfile();
+            this.router.navigate(['/pages/adv/AddAdv/']);
+          }, (err) => {
+            this.showToast('error', 'خطأ', err.error);
+          });
+        }
+        else {
+          this.service.CreateAdvtData(this.Adv).subscribe(x => {
+            this.Adv = {
+              name: '',
+              details: '',
+              image: '',
+              type: '0',
+              price_after: 0,
+              price_before: 0, supplier_id: '', product_id: ''
+            }
+            this.uploader.clearQueue();
+            this.resetfile();
+            this.getData();
+          }, err => {
+            console.log(err.error);
+            this.showToast('error', 'خطأ', err.error);
+          });
+        }
+      });
     }
   }
 

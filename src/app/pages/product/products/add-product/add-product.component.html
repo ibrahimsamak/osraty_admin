@@ -92,7 +92,7 @@
 
                 <div class="row" *ngFor="let item of product.images; let i = index" style="margin:10px;padding:5px;background-color:rgb(231, 229, 229); border-radius:5px; line-height:40px;">
                   <div class="col-sm-8">
-                    <img width='70px' height='70px' src="../../../../../assets/uploads/{{item}}" />
+                    <img width='70px' height='70px' src="{{item}}" />
                   </div>
                   <div class="col-sm-4" style="text-align:center;"><button type="button" class="btn btn-primary" style="margin-top: 15px;"
                       (click)="deleteImage(i)">حذف</button></div>

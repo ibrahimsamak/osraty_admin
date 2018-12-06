@@ -68,7 +68,7 @@ export class CategoryComponent extends SuperComponent implements OnInit {
         filter: false,
         valuePrepareFunction: (image: string) => {
           return `
-             <img width='70px' height='70px' src="../../../../../assets/uploads/${image}" />
+             <img width='70px' height='70px' src="${image}" />
         `;
         },
       },
@@ -173,14 +173,18 @@ export class CategoryComponent extends SuperComponent implements OnInit {
   upload(category) {
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      var res = JSON.parse(response);
-      var resArr = res.filename;
-      for (let key in resArr[0]) {
-        if (key == 'filename') {
-          let value = resArr[0][key];
-          this.category.image = value
-        }
-      }
+      // var res = JSON.parse(response);
+      // var resArr = res.filename;
+      // for (let key in resArr[0]) {
+      //   if (key == 'filename') {
+      //     let value = resArr[0][key];
+      //     this.category.image = value
+      //   }
+      // }
+      console.log(item.file.rawFile)
+      this.service.AddImagetoServer(item.file.rawFile).subscribe((res) => {
+        const url = res['result']['url']
+        this.category.image = url;
 
       this.category.name = category.name;
       if (this.id) {
@@ -211,6 +215,7 @@ export class CategoryComponent extends SuperComponent implements OnInit {
           this.showToast('error', 'خطأ', err.error);
         });
       }
+    });
     }
   }
 

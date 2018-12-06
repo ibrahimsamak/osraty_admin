@@ -88,7 +88,7 @@ export class SupplierProductsComponent extends SuperComponent implements OnInit 
     let content = {
       id: this.supplier_id
     }
-    this.service.getSupplierProductBySeacrhData(content).subscribe(response => {
+    this.service.getSupplierProductBySeacrhData(content,1,this.paginator.pageSize).subscribe(response => {
       this.items = response[appConstant.ITEMS] as any[];
       this.displayedColumns = ['image', 'name', 'qty', 'prices', 'options'];
       this.dataSource = new MatTableDataSource(this.items);

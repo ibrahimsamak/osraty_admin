@@ -56,7 +56,7 @@ export class BasketComponent extends SuperComponent implements OnInit {
         type: 'html',
         filter: false,
         valuePrepareFunction: (image: string) => {
-          return `<img width='70px' height='70px' src="../../../../../assets/uploads/${image}" />`;
+          return `<img width='70px' height='70px' src="${image}" />`;
         },
       },
       name: {
