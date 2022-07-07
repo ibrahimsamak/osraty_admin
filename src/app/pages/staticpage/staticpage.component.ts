@@ -5,6 +5,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { Subscription } from 'rxjs';
 import { ConstantService } from '../service/constant.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { appConstant } from '../service/_constant/appConstant';
 
 @Component({
   selector: 'ngx-staticpage',
@@ -42,7 +43,8 @@ export class StaticpageComponent implements OnInit {
     },
     actions: {
       add: false,
-      edit: false
+      edit: false,
+      delete: false
     },
     columns: {
       _id: {
@@ -78,7 +80,7 @@ export class StaticpageComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'] == undefined ? null : params['id'];
       this.service.getSingleStaticPagenData(this.id).subscribe(x=>{        
-        this.staticpage = x as any;
+        this.staticpage = x[appConstant.ITEMS] as any;
       });
     });
     this.getData()
@@ -90,8 +92,9 @@ export class StaticpageComponent implements OnInit {
 
   getData(){
    this.subscripe =  this.service.getStaticPagenData().subscribe(userList => {
-      this.items = userList as any;
-      this.source.load(userList as any);
+     let data = userList[appConstant.ITEMS] as any;
+      this.items = data
+      this.source.load(data as any);
     });
   }
 

@@ -2,21 +2,48 @@
   <div class="col-xxl-5">
     <div class="row">
       <div class="col-md-6">
-        <ngx-profit-card></ngx-profit-card>
+        <nb-card>
+          <nb-card-header>
+            <span class='txt'>اكثر الخدمات تبرعا</span>
+          </nb-card-header>
+          <nb-card-body>
+            <ngx-charts-pie-chart class="chart-container" [scheme]="colorScheme" [results]="single" [animations]="true"
+              [legend]="false" [legendTitle]="'البند'" [explodeSlices]="false" [labels]="true" [doughnut]="false"
+              [arcWidth]="0.25" (legendLabelClick)="onLegendLabelClick($event)" [gradient]="true"
+              [tooltipDisabled]="false" [tooltipText]="pieTooltipText" (dblclick)="dblclick($event)"
+              (select)="select($event)">
+            </ngx-charts-pie-chart>
+          </nb-card-body>
+        </nb-card>
       </div>
       <div class="col-md-6">
-        <ngx-earning-card></ngx-earning-card>
+        <nb-card>
+          <nb-card-header>
+            <span class='txt'>اكثر البنود تبرعا</span>
+          </nb-card-header>
+          <nb-card-body>
+            <ngx-charts-pie-chart class="chart-container" [scheme]="colorScheme2" [results]="single2"
+              [animations]="true" [legend]="false" [legendTitle]="'البند'" [explodeSlices]="false" [labels]="true"
+              [doughnut]="false" [arcWidth]="0.25" (legendLabelClick)="onLegendLabelClick2($event)" [gradient]="true"
+              [tooltipDisabled]="false" [tooltipText]="pieTooltipText2" (dblclick)="dblclick($event)"
+              (select)="select2($event)">
+            </ngx-charts-pie-chart>
+          </nb-card-body>
+        </nb-card>
       </div>
     </div>
-
-    <!-- <ngx-traffic-reveal-card></ngx-traffic-reveal-card> -->
   </div>
-
   <div class="col-xxl-7">
     <ngx-ecommerce-charts></ngx-ecommerce-charts>
   </div>
 </div>
+<div class="row">
+  <div class="col-xxl-9">
+    <ngx-ecommerce-visitors-analytics></ngx-ecommerce-visitors-analytics>
+  </div>
+</div>
 
+<!-- 
 <div class="row">
   <div class="col-xxl-9">
     <ngx-country-orders></ngx-country-orders>
@@ -32,7 +59,30 @@
     <ngx-ecommerce-visitors-analytics></ngx-ecommerce-visitors-analytics>
   </div>
 
+  <div class="col-xxl-9">
+    <nb-card size="medium">
+      <nb-card-header>
+        <div class="title">معدل الطلبات المنجزة من نعناع شهريا</div>
+        <div class="sub-title"></div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="chart-container">
+          <div class="chart-header">
+            <ngx-charts-line-chart [view]="view" class="chart-container" [scheme]="colorScheme"
+              [schemeType]="schemeType" [results]="data" [animations]="true" [legend]="false"
+              (legendLabelClick)="onLegendLabelClick($event)" [gradient]="false" [xAxis]="true" [yAxis]="true"
+              [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+              [autoScale]="true" [timeline]="false" [showGridLines]="true" [curve]="curves['Basis']"
+              [rangeFillOpacity]="rangeFillOpacity" [roundDomains]="false" [tooltipDisabled]="false"
+              (select)="select($event)">
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
   <div class="col-xxl-3">
     <ngx-user-activity></ngx-user-activity>
   </div>
-</div>
+</div> -->

@@ -8,6 +8,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
+    title: 'النظام',
+    group: true,
+  },
+  {
+    title: 'مستخدمين النظام',
+    icon: 'nb-person',
+    children: [
+      {
+        title: 'ادارة مشرفين النظام ',
+        link: '/pages/superadmin/AddSuperAdmin',
+      }
+    ]
+  },
+  {
     title: 'الثوابت',
     group: true,
   },
@@ -16,112 +30,75 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-keypad',
     link: '/pages/constant',
     children: [
+      // {
+      //   title: 'المسميات الوظيفية',
+      //   link: '/pages/constant/jobs',
+      // },
       {
-        title: 'ادارة وحدات الشراء',
-        link: '/pages/constant/buyunits',
+        title: 'انواع التبرع',
+        link: '/pages/constant/paymentMetod',
       },
       {
-        title: 'ادارة مابعد الشراء',
-        link: '/pages/constant/unitsoptions',
+        title: 'انواع الطلبات',
+        link: '/pages/constant/paymentFor',
       },
       {
-        title: 'خيارات التوصيل',
-        link: '/pages/constant/delivery',
-      },
-      {
-        title: 'اسلوب الاستلام',
-        link: '/pages/constant/deliveryoptions',
-      },
-      {
-        title: 'السوشيال ميديا',
-        link: '/pages/constant/sociallink',
-      },
-      {
-        title: 'معلومات التواصل',
-        link: '/pages/constant/contactinfo',
-      },
-      {
-        title: 'ادارة الصفحات الثابتة',
+        title: 'الصفحات الثابتة',
         link: '/pages/constant/staticpage',
-      }
+      },
+      {
+        title: 'الحسابات البنكية',
+        link: '/pages/constant/bankaccount',
+      },
+      {
+        title: 'رفع الملفات',
+        link: '/pages/constant/files',
+      },
     ],
   },
   {
-    title: 'الموردين والمنتجات',
+    title: 'الاشعارات والتنبيهات',
     group: true,
   },
   {
-    title: 'الهايبرات والاصناف',
+    title: 'التنبيهات',
+    icon: 'nb-keypad',
+    link: '/pages/constant',
+    children: [
+      {
+        title: 'اتصل بنا',
+        link: '/pages/constant/contactUs',
+      },
+      {
+        title: 'ارسال تنبيه',
+        link: '/pages/constant/sendNotification',
+      },
+    ],
+  },
+  {
+    title: 'الأخبار والمناسبات',
+    group: true,
+  },
+  {
+    title: 'الاخبار',
     icon: 'nb-e-commerce',
     children: [
       {
-        title: 'ادارة الأصناف الرئيسية',
-        link: '/pages/product/category',
+        title: 'ادارة الأخبار',
+        link: '/pages/news/AddAdv',
       },
       {
-        title: 'ادارة الأصناف الفرعية',
-        link: '/pages/product/subcategory',
+        title: 'ادارة المناسبات',
+        link: '/pages/news/AddEvent',
       },
       {
-        title: 'ادارة الهايبرات',
-        link: '/pages/product/supplier',
+        title: 'حضور المناسبات',
+        link: '/pages/news/Attend',
       }
-    ],
+    ]
   },
   {
-    title: 'المنتجات',
-    icon: 'nb-tables',
-    children: [
-      {
-        title: 'اضافة منتج',
-        link: '/pages/product/product',
-      },
-      {
-        title: 'ادارة المنتجات',
-        link: '/pages/product/products',
-      },
-      {
-        title: 'اضافة منتجات الهايبرات',
-        link: '/pages/product/addsupplierproducts',
-      },
-      {
-        title: 'ادارة منتجات الهايبرات',
-        link: '/pages/product/supplierproducts',
-      },
-    ],
-  },
-  {
-    title: 'الاعلانات والعروض',
-    group: true,
-  },
-  {
-    title: 'الاعلانات والعروض',
-    icon: 'nb-compose',
-    children: [
-      {
-        title: 'ادارة الاعلانات',
-        link: '/pages/adv/AddAdv',
-      },
-      {
-        title: 'اضافة سلة',
-        link: '/pages/basket/addbasket',
-      },
-      {
-        title: 'ادارة السلة',
-        link: '/pages/basket/basket',
-      },
-      {
-        title: 'اضافة منتجات باقات التوفير',
-        link: '/pages/offer/addoffer',
-      },
-      {
-        title: 'ادارة باقات التوفير',
-        link: '/pages/offer/offer',
-      }
-    ],
-  },
-  {
-    title: 'العملاء والسائقين',
+    title: 'ادارة المستخدمين',
     group: true,
   },
   {
@@ -129,9 +106,49 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-person',
     children: [
       {
-        title: 'ادارة المستخدمين',
-        link: '/pages/users/clients',
+        title: 'ادارة المستفيدين',
+        link: '/pages/users/users',
+      },
+      {
+        title: 'ادارة المتبرعين',
+        link: '/pages/users/admins',
       }
-    ],
+    ]
+  },
+  {
+    title: 'التقارير والارشيف',
+    group: true,
+  },
+  {
+    title: 'الأرشيف',
+    icon: 'nb-bar-chart',
+    children: [
+      {
+        title: 'طلبات المستفيدين',
+        link: '/pages/orders/requests',
+      },
+      {
+        title: 'التبرعات الشهرية',
+        link: '/pages/orders/addPaymentToUser',
+      }
+    ]
+  },
+  {
+    title: 'التقارير',
+    icon: 'nb-bar-chart',
+    children: [
+      {
+        title: 'التبرعات الواردة',
+        link: '/pages/report/funcder',
+      },
+      {
+        title: 'التبرعات الصادرة',
+        link: '/pages/report/beneficiary',
+      },
+      {
+        title: 'الطلبات',
+        link: '/pages/report/request',
+      }
+    ]
   }
 ];

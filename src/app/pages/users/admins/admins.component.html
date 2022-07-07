@@ -1,0 +1,241 @@
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+  <nb-card-header>
+    ادارة المتبرعين
+  </nb-card-header>
+  <nb-card-body>
+
+    <toaster-container [toasterconfig]="config"></toaster-container>
+    <input type='text' #search style='padding:8px;margin:15px auto;width:50%;'
+      placeholder='البحث يالاسم او رقم الجوال او رقم الهوية' />
+    <button type="button" class="btn btn-primary" style="margin-right: 10px;" (click)="updateFilter(search.value)">بحث
+    </button>
+
+    <ngx-datatable #myTable class="material custom-ngxtable expandable" [rows]="rows" (page)='setPage($event)'
+      [columnMode]="'force'" [sortType]="'multi'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60"
+      [loadingIndicator]="isLoading" [scrollbarH]="false" [scrollbarV]="false" [virtualization]="false"
+      [reorderable]="true" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+      [limit]="page.size" (page)='setPage($event)'>
+
+      <ngx-datatable-column [width]="130" [cellClass]="'tbl-overflow'" prop="full_name" name="الاسم">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="80" [cellClass]="'tbl-overflow'" prop="phone_number" name="رقم الجوال">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="50" prop="Id_no" name="الهوية">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="40" prop="paymentMethod_type" name="الايداع">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="100" prop="paymentMethod_id.name" name="التبرع الى">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="40" prop="isActivePayment" name="التبرع">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span class="bg-gray" [ngStyle]="{'color':value == true ? 'green' : 'green' }"
+            *ngIf="value == true">نعم</span>
+          <span class="bg-gray" [ngStyle]="{'color':value == false ? 'red' : 'red' }" *ngIf="value == false"> لا </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- <ngx-datatable-column [width]="40" prop="isBlock" name="محظور">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span class="bg-gray" [ngStyle]="{'color':value == true ? 'green' : 'green' }"
+            *ngIf="value == true">نعم</span>
+          <span class="bg-gray" [ngStyle]="{'color':value == false ? 'red' : 'red' }" *ngIf="value == false"> لا </span>
+        </ng-template>
+      </ngx-datatable-column> -->
+
+      <ngx-datatable-column [width]="80" class="overflow-no" name="الاجراءات">
+        <ng-template style="overflow: visible !important" let-value="value" let-row="row" ngx-datatable-cell-template>
+          <div class="btn-group" dropdown>
+            <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+              aria-controls="dropdown-basic">
+              المزيد <span class="caret"></span>
+            </button>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem">
+                <button md-icon-button class="dropdown-item" (click)="openModal(contentCategory,value)">
+                  عرض التفاصيل
+                </button>
+              </li>
+              <!-- <li>
+                <button md-icon-button class="dropdown-item" (click)="SaveUpdateStatus(value)">
+                  تفعيل
+                </button>
+              </li> -->
+              <!-- <li>
+                <button md-icon-button class="dropdown-item" (click)="Block(value)">
+                  <span *ngIf="value.isBlock == true">الغاء الحظر</span>
+                  <span *ngIf="value.isBlock == false">خظر</span>
+                </button>
+              </li> -->
+              <li>
+                <button md-icon-button class="dropdown-item" (click)="history(value)">
+                  الأرشيف المالي
+                </button>
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+    <ng-template #contentCategory let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">معلومات المتبرع</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close(contentCategory)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">الاسم</label>
+              <label class="txt2" name="full_name" #full_name id="full_name">{{postData?.full_name}}</label>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">رقم الجوال</label>
+              <label class="txt2" name="coupon" id="coupon">{{postData?.phone_number}}</label>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">الطريقة</label>
+              <label class="txt2" name="paymentMethod_type" #paymentMethod_type
+                id="paymentMethod_type">{{postData?.paymentMethod_type}}</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">رقم الهوية</label>
+              <label class="txt2" name="Id_no" #Id_no id="Id_no">{{postData?.Id_no}}</label>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">البريد الالكتروني</label>
+              <label class="txt2" name="email" #email id="email">{{postData?.email}}</label>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="txt1">قيمة التبرع</label>
+              <label class="txt2">{{postData?.ammount}}</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+
+    <ng-template #contentStatus let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">المعلومات المالية</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close(contentCategory)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #form1="ngForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="inputEmail4">اسم البنك</label>
+              <input type="text" placeholder="اسم البنك" class="form-control" #bank_name="ngModel"
+                [(ngModel)]="banks.bank_name"
+                [ngClass]="(bank_name.invalid && (bank_name.dirty || bank_name.touched))?'form-control form-control-danger':'form-control'"
+                name="bank_name" id="bank_name" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الفرع عربي</label>
+              <input type="text" placeholder="الفرع عربي" class="form-control" #branch_ar="ngModel"
+                [(ngModel)]="banks.branch_ar"
+                [ngClass]="(branch_ar.invalid && (branch_ar.dirty || branch_ar.touched))?'form-control form-control-danger':'form-control'"
+                name="branch_ar" id="branch_ar" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الفرع انجليزي</label>
+              <input type="text" placeholder="الفرع انجليزي" class="form-control" #branch_en="ngModel"
+                [(ngModel)]="banks.branch_en"
+                [ngClass]="(branch_en.invalid && (branch_en.dirty || branch_en.touched))?'form-control form-control-danger':'form-control'"
+                name="branch_en" id="branch_en" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الاسم عربي</label>
+              <input type="text" placeholder="الاسم عربي" class="form-control" #name_ar="ngModel"
+                [(ngModel)]="banks.name_ar"
+                [ngClass]="(name_ar.invalid && (name_ar.dirty || name_ar.touched))?'form-control form-control-danger':'form-control'"
+                name="name_ar" id="name_ar" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الاسم انجليزي</label>
+              <input type="text" placeholder="الاسم انجليزي" class="form-control" #name_en="ngModel"
+                [(ngModel)]="banks.name_en"
+                [ngClass]="(name_en.invalid && (name_en.dirty || name_en.touched))?'form-control form-control-danger':'form-control'"
+                name="name_en" id="name_en" required />
+            </div>
+
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الجنسية عربي</label>
+              <input type="text" placeholder="الجنسية عربي" class="form-control" #nationality_ar="ngModel"
+                [(ngModel)]="banks.nationality_ar"
+                [ngClass]="(nationality_ar.invalid && (nationality_ar.dirty || nationality_ar.touched))?'form-control form-control-danger':'form-control'"
+                name="nationality_ar" id="nationality_ar" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الجنسية انجليزي</label>
+              <input type="text" placeholder="الجنسية انجليزي" class="form-control" #nationality_en="ngModel"
+                [(ngModel)]="banks.nationality_en"
+                [ngClass]="(nationality_en.invalid && (nationality_en.dirty || nationality_en.touched))?'form-control form-control-danger':'form-control'"
+                name="nationality_en" id="nationality_en" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الهوية </label>
+              <input type="text" placeholder="الهوية" class="form-control" #id_no="ngModel" [(ngModel)]="banks.id_no"
+                [ngClass]="(id_no.invalid && (id_no.dirty || id_no.touched))?'form-control form-control-danger':'form-control'"
+                name="id_no" id="id_no" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">رقم الحساب </label>
+              <input type="text" placeholder="رقم الحساب" class="form-control" #account_no="ngModel"
+                [(ngModel)]="banks.account_no"
+                [ngClass]="(account_no.invalid && (account_no.dirty || account_no.touched))?'form-control form-control-danger':'form-control'"
+                name="account_no" id="account_no" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="inputEmail4">رقم الايبان</label>
+              <input type="text" placeholder="رقم الايبان" class="form-control" #iban="ngModel" [(ngModel)]="banks.iban"
+                [ngClass]="(iban.invalid && (iban.dirty || iban.touched))?'form-control form-control-danger':'form-control'"
+                name="iban" id="iban" required />
+            </div>
+          </div>
+          <div>
+            <button [disabled]="!form1.valid" class="btn btn-success btn-round btn-demo"
+              (click)="SaveUpdateStatus(banks);">حفظ
+              المعلومات</button>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </nb-card-body>
+</nb-card>

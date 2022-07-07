@@ -1,3 +1,4 @@
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgSelectModule } from '@ng-select/ng-select';
 /**
  * @license
@@ -10,6 +11,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,9 +22,17 @@ import { ToasterModule } from 'angular2-toaster';
 import { FormatDateService } from './pages/service/custom/format-date.service';
 import { NbSpinnerModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { environment } from '../environments/environment';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { StaticDetailsComponent } from './static-details/static-details.component';
+import { SupportComponent } from './pages/support/support.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent , SignInComponent, StaticDetailsComponent,SupportComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -34,7 +44,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     ToasterModule.forRoot(),
     NgSelectModule,
     NbSpinnerModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    NgxDatatableModule
     // ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
   ],
   bootstrap: [AppComponent],

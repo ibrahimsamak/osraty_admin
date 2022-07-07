@@ -1,0 +1,60 @@
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+  <nb-card-header>
+    اضافة او تعديل قوالب معلومات الدفع
+  </nb-card-header>
+  <nb-card-body>
+    <form #form="ngForm">
+      <div class="form-group">
+        <label>نص تعريفي</label>
+        <div class="input-group">
+          <input type="text" #title="ngModel" [(ngModel)]="staticpage.title" placeholder="نص تعريفي"
+            [ngClass]="(title.invalid && (title.dirty || title.touched))?'form-control form-control-danger':'form-control'"
+            name="title" id="title" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>القالب </label>
+        <div>
+          <div id="fileSelector">
+            <input type="file" #fileUpload placeholder="القالب" id="fileUpload" ng2FileSelect [uploader]="uploader">
+          </div>
+          <!-- <div class="form-group">
+            <label>الملف</label>
+            <div>
+              <div class="row uploadList" *ngFor="let item of uploader.queue">
+                <div class="col-sm-4">{{item.file.name}}</div>
+                <div class="col-sm-4">
+                  <div class="progress">
+                    <div class="progress-bar bg-success" [ngStyle]="{'width':item.progress+'%'}"></div>
+                  </div>
+                </div>
+                <div class="col-sm-4" style="margin-top: -14px;">
+                  <button type="button" class="btn btn-danger"
+                    (click)="item.remove(); uploader?.clearQueue(); resetfile();">حذف</button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="row" *ngIf="uploader?.queue?.length > 0">
+          </div> -->
+        </div>
+      </div>
+
+      <div>
+        <button [disabled]="!form.valid" class="btn btn-success btn-round btn-demo" (click)="Save(staticpage)">حفظ
+          المعلومات</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+
+
+<nb-card>
+  <nb-card-header>
+    ادارة قوالب الدفع
+  </nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)"
+     ></ng2-smart-table>
+  </nb-card-body>
+</nb-card>

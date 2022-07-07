@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import { appConstant } from './../../service/_constant/appConstant';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'ngx-progress-section',
@@ -6,30 +7,10 @@ import {Component} from '@angular/core';
   templateUrl: './progress-section.component.html',
 })
 export class ECommerceProgressSectionComponent {
-  progressInfoData = [
-    {
-      title: 'الأرباح اليومية',
-      value: 572900,
-      activeProgress: 70,
-      description: '',
-    },
-    {
-      title: 'الطلبات الجديدة',
-      value: 6378,
-      activeProgress: 30,
-      description: '',
-    },
-    {
-      title: 'المنتجات',
-      value: 200,
-      activeProgress: 55,
-      description: '',
-    },
-    {
-      title: 'الموردين',
-      value: 387,
-      activeProgress: 67,
-      description: '',
-    },
-  ];
+
+  items = []
+  progressInfoData: any
+  constructor() {
+
+  }
 }

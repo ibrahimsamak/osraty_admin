@@ -8,8 +8,16 @@ import {
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { NotFoundComponent } from './pages/miscellaneous/not-found/not-found.component';
+import { StaticDetailsComponent } from './static-details/static-details.component';
+import { SupportComponent } from './pages/support/support.component';
 
 const routes: Routes = [
+  { path: 'SignIn', component:SignInComponent },
+  { path: 'static-details', component:StaticDetailsComponent },
+  { path: 'support', component:SupportComponent },
+  
   { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
   {
     path: 'auth',

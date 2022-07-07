@@ -15,7 +15,7 @@ import { takeWhile } from 'rxjs/operators/takeWhile';
       <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
         <nb-sidebar-header *ngIf="currentTheme !== 'corporate'">
           <a href="#" class="btn btn-hero-success main-btn">
-            <span>liken</span>
+            <span>صندوق الغشيان </span>
           </a>
         </nb-sidebar-header>
         <ng-content select="nb-menu"></ng-content>
@@ -42,7 +42,7 @@ export class OneColumnLayoutComponent implements OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.currentTheme = theme.name;
-    });
+      });
   }
 
   ngOnDestroy() {

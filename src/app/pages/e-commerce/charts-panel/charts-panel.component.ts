@@ -6,6 +6,8 @@ import { ProfitChartComponent } from './charts/profit-chart.component';
 import { OrdersChart } from '../../../@core/data/orders-chart.service';
 import { ProfitChart } from '../../../@core/data/profit-chart.service';
 import { OrdersProfitChartService, OrderProfitChartSummary } from '../../../@core/data/orders-profit-chart.service';
+import { appConstant } from '../../service/_constant/appConstant';
+import { ConstantService } from '../../service/constant.service';
 
 @Component({
   selector: 'ngx-ecommerce-charts',
@@ -14,6 +16,25 @@ import { OrdersProfitChartService, OrderProfitChartSummary } from '../../../@cor
 })
 export class ECommerceChartsPanelComponent implements OnDestroy {
 
+  colorScheme = 'horizon'
+  schemeType: string = 'ordinal';
+  customColors
+  single
+  view
+  width: number = 900;
+  height: number = 300;
+
+
+
+  colorScheme2 = 'horizon'
+  schemeType2: string = 'ordinal';
+  customColors2
+  single2
+  view2
+  width2: number = 1000;
+  height2: number = 300;
+  yScaleMax: number;
+
   private alive = true;
 
   chartPanelSummary: OrderProfitChartSummary[];
@@ -21,54 +42,54 @@ export class ECommerceChartsPanelComponent implements OnDestroy {
   ordersChartData: OrdersChart;
   profitChartData: ProfitChart;
 
-  @ViewChild('ordersChart') ordersChart: OrdersChartComponent;
-  @ViewChild('profitChart') profitChart: ProfitChartComponent;
+  // @ViewChild('ordersChart') ordersChart: OrdersChartComponent;
+  // @ViewChild('profitChart') profitChart: ProfitChartComponent;
 
-  constructor(private ordersProfitChartService: OrdersProfitChartService) {
-    this.ordersProfitChartService.getOrderProfitChartSummary()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe((summary) => {
-        this.chartPanelSummary = summary;
-      });
-
-    this.getOrdersChartData(this.period);
-    this.getProfitChartData(this.period);
-  }
-
-  setPeriodAndGetChartData(value: string): void {
-    if (this.period !== value) {
-      this.period = value;
-    }
-
-    this.getOrdersChartData(value);
-    this.getProfitChartData(value);
+  constructor(private service: ConstantService) {
+    this.getOrdersChartData()
   }
 
   changeTab(selectedTab) {
-    if (selectedTab.tabTitle === 'الأرباح') {
-      this.profitChart.resizeChart();
+    if (selectedTab.tabTitle === 'الوارد') {
+      this.getOrdersChartData()
     } else {
-      this.ordersChart.resizeChart();
+      this.getProfitChartData()
     }
   }
 
-  getOrdersChartData(period: string) {
-    this.ordersProfitChartService.getOrdersChartData(period)
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(ordersChartData => {
-        this.ordersChartData = ordersChartData;
-      });
+  getOrdersChartData() {
+    this.service.PaymentPerYear().subscribe((res) => {
+      let items = res as any[]
+      this.single = items
+      // this.view = [this.width, this.height];
+    })
   }
 
-  getProfitChartData(period: string) {
-    this.ordersProfitChartService.getProfitChartData(period)
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(profitChartData => {
-        this.profitChartData = profitChartData;
-      });
+  getProfitChartData() {
+    this.service.PaymentPerYear2().subscribe((res) => {
+      let items = res as any[]
+      this.single2 = items
+      // this.view = [this.width, this.height];
+    })
   }
 
   ngOnDestroy() {
-    this.alive = false;
+    //this.alive = false;
+  }
+
+  select(data) {
+    console.log('Item clicked', data);
+  }
+
+  onLegendLabelClick(entry) {
+    console.log('Legend clicked', entry);
+  }
+
+  select2(data) {
+    console.log('Item clicked', data);
+  }
+
+  onLegendLabelClick2(entry) {
+    console.log('Legend clicked', entry);
   }
 }

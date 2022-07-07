@@ -14,10 +14,12 @@
             </div>
             <div class="form-group">
                 <label>محتوى الصفحة</label>
-                <ckeditor #content="ngModel" [(ngModel)]="staticpage.content" name="content" id="content" [config]="{ extraPlugins: 'divarea', height: '250' }"></ckeditor>
+                <ckeditor #content="ngModel" [(ngModel)]="staticpage.content" name="content" id="content"
+                    [config]="{ extraPlugins: 'divarea', height: '250' }"></ckeditor>
             </div>
             <div>
-                <button [disabled]="!form.valid" class="btn btn-success btn-round btn-demo" (click)="Save(staticpage)">حفظ
+                <button [disabled]="!form.valid" class="btn btn-success btn-round btn-demo"
+                    (click)="Save(staticpage)">حفظ
                     المعلومات</button>
             </div>
         </form>

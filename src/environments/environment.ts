@@ -10,4 +10,14 @@
 
 export const environment = {
   production: false,
+  firebase: {
+    apiKey: "AIzaSyDUHQO1EQ1XBLp--_q4t-0bE_wfvkLFND0",
+  authDomain: "osraty-f07cc.firebaseapp.com",
+  databaseURL: "https://osraty-f07cc.firebaseio.com",
+  projectId: "osraty-f07cc",
+  storageBucket: "",
+  messagingSenderId: "733857077930",
+  appId: "1:733857077930:web:a166340d2b4db145b7ced3",
+  measurementId: "G-QZ9ZRKB760"
+  }
 };

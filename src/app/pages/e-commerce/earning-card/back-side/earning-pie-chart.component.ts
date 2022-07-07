@@ -16,8 +16,8 @@ import { delay, takeWhile } from 'rxjs/operators';
 })
 export class EarningPieChartComponent implements AfterViewInit, OnDestroy {
 
-  @Output() selectPie = new EventEmitter<{value: number; name: string; color: string}>();
-  @Input() values: {value: number; name: string; }[];
+  @Output() selectPie = new EventEmitter<{ value: number; name: string; color: string }>();
+  @Input() values: { value: number; name: string; }[];
   @Input() defaultSelectedCurrency: string;
 
   private alive = true;
@@ -42,22 +42,22 @@ export class EarningPieChartComponent implements AfterViewInit, OnDestroy {
     this.emitSelectPie(pieData);
   }
 
-  emitSelectPie(pieData: {value: number; name: string; color: any}) {
+  emitSelectPie(pieData: { value: number; name: string; color: any }) {
     this.selectPie.emit(pieData);
   }
 
   ngAfterViewInit() {
     this.theme.getJsTheme()
       .pipe(
-        takeWhile(() => this.alive),
-        delay(1),
+        // takeWhile(() => this.alive),
+        delay(25),
       )
       .subscribe(config => {
         const variables = config.variables;
 
         this.options = this.getOptions(variables);
         const defaultSelectedData =
-          this.options.series[0].data.find((item) => item.name === this.defaultSelectedCurrency);
+        this.options.series[0].data.find((item) => item.name === this.defaultSelectedCurrency);
         const color = defaultSelectedData.itemStyle.normal.color.colorStops[0].color;
         const pieData = {
           value: defaultSelectedData.value,
@@ -204,6 +204,6 @@ export class EarningPieChartComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.alive = false;
+    //this.alive = false;
   }
 }

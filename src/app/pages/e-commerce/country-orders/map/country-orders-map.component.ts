@@ -27,11 +27,11 @@ export class CountryOrdersMapComponent implements OnDestroy {
   selectedCountry;
 
   options = {
-    zoom: 2,
+    zoom: 3,
     minZoom: 2,
     maxZoom: 6,
     zoomControl: false,
-    center: L.latLng({lat: 38.991709, lng: -76.886109}),
+    center: L.latLng({lat: 24.774265, lng:46.738586}),
     maxBounds: new L.LatLngBounds(
       new L.LatLng(-89.98155760646617, -180),
       new L.LatLng(89.99346179538875, 180),

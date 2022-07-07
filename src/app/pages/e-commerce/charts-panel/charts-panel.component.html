@@ -1,21 +1,19 @@
 <nb-card size="large">
   <nb-tabset fullWidth (changeTab)="changeTab($event)">
-    <nb-tab tabTitle="الطلبات">
+    <nb-tab tabTitle="الوارد">
       <div class="chart-container">
-        <ngx-chart-panel-summary [summary]="chartPanelSummary"></ngx-chart-panel-summary>
-        <ngx-chart-panel-header [type]="period"
-                                (periodChange)="setPeriodAndGetChartData($event)">
-        </ngx-chart-panel-header>
-        <ngx-orders-chart #ordersChart [ordersChartData]="ordersChartData"></ngx-orders-chart>
+        <ngx-charts-bar-vertical [scheme]="colorScheme" [schemeType]="schemeType" [results]="single" [xAxis]="true"
+          [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'الشهر'"
+          [yAxisLabel]="'المبلغ'" (select)="select($event)">
+        </ngx-charts-bar-vertical>
       </div>
     </nb-tab>
-    <nb-tab tabTitle="الأرباح" [lazyLoad]="true">
+    <nb-tab tabTitle="الصادر" [lazyLoad]="true">
       <div class="chart-container">
-        <ngx-chart-panel-summary [summary]="chartPanelSummary"></ngx-chart-panel-summary>
-        <ngx-chart-panel-header [type]="period"
-                                (periodChange)="setPeriodAndGetChartData($event)">
-        </ngx-chart-panel-header>
-        <ngx-profit-chart #profitChart [profitChartData]="profitChartData"></ngx-profit-chart>
+        <ngx-charts-bar-vertical [scheme]="colorScheme2" [schemeType]="schemeType2" [results]="single2" [xAxis]="true"
+          [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'الشهر'"
+          [yAxisLabel]="'المبلغ'" (select)="select($event)">
+        </ngx-charts-bar-vertical>
       </div>
     </nb-tab>
   </nb-tabset>

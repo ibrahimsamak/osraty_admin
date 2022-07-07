@@ -1,0 +1,313 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>بحث بحسب </nb-card-header>
+      <nb-card-body>
+        <form #form="ngForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>اسم المستفيد</label>
+              <div class="input-group">
+                <ng-select name="xx" class="form-control" [dropdownPosition]="'bottom'" [items]="users"
+                  bindLabel="full_name" bindValue="_id" placeholder="اسم السمتفيد" [(ngModel)]="selected_user_id"
+                  #selectedcategoryid="ngModel" (change)="PaymentChanging($event)">
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>الحالة</label>
+              <div class="input-group">
+                <ng-select name="xx1" class="form-control" [dropdownPosition]="'bottom'" [items]="status"
+                  bindLabel="name" bindValue="_id" placeholder="الحالة" [(ngModel)]="selected_status_id"
+                  #selectedcategoryid1="ngModel" (change)="PaymentChanging2($event)">
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>البند</label>
+              <div class="input-group">
+                <ng-select name="xx1" class="form-control" [dropdownPosition]="'bottom'" [items]="types"
+                  bindLabel="name" bindValue="_id" placeholder="البند" [(ngModel)]="selected_type_id"
+                  #selectedcategoryid="ngModel" (change)="PaymentChanging3($event)">
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">من تار يخ</label>
+              <div class="input-group">
+                <input type="text" name="dt_from" id="dt_from" bsDatepicker readonly #dt_from
+                  [(ngModel)]="search.dt_from" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                  [ngClass]="(dt_from.invalid && dt_from.dirty || dt_from.touched)?'form-control form-control-danger':'form-control'" />
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">الى تاريخ</label>
+              <div class="input-group">
+                <input type="text" name="dt_to" id="dt_to" bsDatepicker readonly #dt_to [(ngModel)]="search.dt_to"
+                  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                  [ngClass]="(dt_to.invalid && dt_to.dirty || dt_to.touched)?'form-control form-control-danger':'form-control'" />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <button class="btn btn-success btn-round btn-demo" (click)="Save()">بحث</button>
+            <button class="btn btn-danger btn-round btn-demo" (click)="reset()">تفريغ الحقول</button>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+  <nb-card-header>
+    تقرير طلبات المستفيدين
+  </nb-card-header>
+  <nb-card-body>
+
+    <toaster-container [toasterconfig]="config"></toaster-container>
+
+    <ngx-datatable #myTable class="material custom-ngxtable expandable" [rows]="rows" (page)='setPage($event)'
+      [columnMode]="'force'" [sortType]="'multi'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60"
+      [loadingIndicator]="isLoading" [scrollbarH]="false" [scrollbarV]="false" [virtualization]="false"
+      [reorderable]="true" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+      [limit]="page.size" (page)='setPage($event)'>
+
+      <ngx-datatable-column [width]="130" [cellClass]="'tbl-overflow'" prop="user_id.full_name" name="الاسم">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="80" [cellClass]="'tbl-overflow'" prop="user_id.phone_number" name="رقم الجوال">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="60" prop="createAt" name="تاريخ الطلب">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value | date:'hh:mm dd-MM-yyyy'}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="40" prop="ammount" name="القيمة">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="80" prop="type.name" name="الغرض">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="40" prop="status" name="الحالة">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span class="bg-gray" [ngStyle]="{'color':value == 1 ? 'black' : 'black' }" *ngIf="value == 1">قيد
+            المراجعة</span>
+          <span class="bg-gray" [ngStyle]="{'color':value == 2 ? 'green' : 'green' }" *ngIf="value == 2"> موافقة </span>
+          <span class="bg-gray" [ngStyle]="{'color':value == 3 ? 'red' : 'red' }" *ngIf="value == 3"> رفض </span>
+          <span class="bg-gray" [ngStyle]="{'color':value == 4 ? 'orange' : 'orange' }" *ngIf="value == 4"> الغاء
+            المستفيد </span>
+          <span class="bg-gray" [ngStyle]="{'color':value == 5 ? 'brown' : 'brown' }" *ngIf="value == 5"> انتهى </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+    <ng-template #contentCategory let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">معلومات المستفيد</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close(contentCategory)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">الاسم</label>
+              <label class="txt2" name="full_name" #full_name id="full_name">{{postData?.full_name}}</label>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">الجنس</label>
+              <label class="txt2" name="gender" #gender id="gender">{{postData?.gender}}</label>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">رقم الجوال</label>
+              <label class="txt2" name="coupon" id="coupon">{{postData?.phone_number}}</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">رقم الهوية</label>
+              <label class="txt2" name="Id_no" #Id_no id="Id_no">{{postData?.Id_no}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">البريد الالكتروني</label>
+              <label class="txt2" name="email" #email id="email">{{postData?.email}}</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">المنزل</label>
+              <label class="txt2" name="house_type" id="house_type">{{postData?.house_type}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1">الحالة الاجتماعية</label>
+              <label class="txt2">{{postData?.social_status}}</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">هل لديه اطفال؟</label>
+              <span class="txt2" [ngStyle]="{'color':postData?.has_children == true ? 'green' : 'green' }"
+                *ngIf="postData?.has_children == true">نعم</span>
+              <span class="txt2" [ngStyle]="{'color':postData?.has_children == false ? 'red' : 'red' }"
+                *ngIf="postData?.has_children == false">لا</span>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">عدد الاطفال</label>
+              <label class="txt2" name="children_no" #children_no id="children_no">{{postData?.children_no}}</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">هل يعمل؟ </label>
+              <span class="txt2" [ngStyle]="{'color':postData?.isWork == true ? 'green' : 'green' }"
+                *ngIf="postData?.isWork == true">نعم</span>
+              <span class="txt2" [ngStyle]="{'color':postData?.isWork == false ? 'red' : 'red' }"
+                *ngIf="postData?.isWork == false">لا</span>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">العمل</label>
+              <label class="txt2" name="work_type" #work_type id="work_type">{{postData?.work_type}}</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">الدخل</label>
+              <label class="txt2" name="income" id="income">{{postData?.income}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">عدد المعالين</label>
+              <label class="txt2" name="number_of_dependents"
+                id="number_of_dependents">{{postData?.number_of_dependents}}</label>
+            </div>
+            <!-- <div class="form-group col-md-4">
+              <label class="txt1" for="inputState">مبلغ الاعالة </label>
+              <label class="txt2" name="benefit_no" id="benefit_no">{{postData?.benefit_no}}</label>
+            </div> -->
+          </div>
+          <div class="form-row">
+            <!-- <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">هل توجد التزامات </label>
+              <span class="txt2" [ngStyle]="{'color':postData?.isObligation == true ? 'green' : 'green' }"
+                *ngIf="postData?.isObligation == true">نعم</span>
+              <span class="txt2" [ngStyle]="{'color':postData?.isObligation == false ? 'red' : 'red' }"
+                *ngIf="postData?.isObligation == false">لا</span>
+            </div> -->
+            <div class="form-group col-md-12">
+              <label class="txt1" for="inputState">الالتزامات</label>
+              <label class="txt2" name="Total" id="Total">{{postData?.Obligation}}</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">اسم البنك</label>
+              <label class="txt2" name="Total" id="Total">{{postData?.bank_name}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">رقم الحساب</label>
+              <label class="txt2" name="Total" id="Total">{{postData?.account_no}}</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label class="txt1" for="inputState">الأيبان</label>
+              <label class="txt2" name="Total" id="Total">{{postData?.iban}}</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">صورة الهوية</label>
+              <a href="{{postData.id_file}}" target="blank" class="txt2" name="Total" id="Total">استعراض</a>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">صورة الأيبان</label>
+              <a href="{{postData.iban_file}}" target="blank" class="txt2" name="Total" id="Total">استعراض</a>
+            </div>
+          </div>
+          <!-- <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">الخدمة</label>
+              <label class="txt2" name="Total" id="Total">{{postData?.payment_for.name}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="txt1" for="inputState">الملبغ المطلوب من الخدمة المختارة </label>
+              <label class="txt2" name="payment_for_no" id="payment_for_no">{{postData?.payment_for_no}}</label>
+            </div>
+          </div> -->
+        </form>
+      </div>
+    </ng-template>
+
+    <!-- <ng-template #contentDriver let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">اختر السائق</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close(contentCategory)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>اختر السائق</label>
+            <ng-select name="aa" [dropdownPosition]="'bottom'" class="form-control" [items]="drivers" bindLabel="name"
+              bindValue="_id" placeholder="اختر السائق" [(ngModel)]="selected_driver_id" #selectedcategoryid="ngModel"
+              (change)="SupplierChanging($event)" required>
+            </ng-select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="SaveOrderDriver(contentDriver)">ارسال الطلب</button>
+      </div>
+    </ng-template>
+
+    <ng-template #contentStatus let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">تعيل حالة الطلب</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close(contentCategory)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>اختر الحالة</label>
+            <select name="categories" class="form-control" #status (change)="selectStatus($event.target.value)">
+              <option *ngFor='let c of cateogires' [value]="c.id">{{c.name}}</option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="status.value == 8 || status.value == 9">
+            <label>السبب</label>
+            <input type="text" placeholder="سبب الرفض" class="form-control" #_note="ngModel" [(ngModel)]="Notes"
+              [ngClass]="(_note.invalid && (_note.dirty || _note.touched))?'form-control form-control-danger':'form-control'"
+              name="_note" id="_note" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="SaveUpdateStatus(contentCategory)">حفظ المعلومات</button>
+      </div>
+    </ng-template> -->
+
+  </nb-card-body>
+</nb-card>

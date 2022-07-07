@@ -5,6 +5,7 @@ export class SuperComponent {
 
   isEdit = false;
   id;
+  user_name;
   loading;
 
   config = new ToasterConfig({

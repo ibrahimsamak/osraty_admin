@@ -1,14 +1,32 @@
 <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
   <nb-card-front>
-    <nb-card size="xsmall">
-        <ngx-stats-card-back></ngx-stats-card-back>
-        <i class="nb-arrow-right" (click)="toggleView()"></i>
-      </nb-card>
+    <nb-card>
+      <nb-card-header>
+        <span class='txt'>اكثر الخدمات تبرعا</span>
+        <i class="nb-arrow nb-arrow-left" (click)="toggleFlipView()"></i>
+      </nb-card-header>
+      <nb-card-body>
+        <ngx-charts-pie-chart class="chart-container" [scheme]="colorScheme" [results]="single" [animations]="true"
+          [legend]="true" [legendTitle]="'البند'" [explodeSlices]="false" [labels]="true" [doughnut]="false"
+          [arcWidth]="0.25" (legendLabelClick)="onLegendLabelClick($event)" [gradient]="true" [tooltipDisabled]="false"
+          [tooltipText]="pieTooltipText" (dblclick)="dblclick($event)" (select)="select($event)">
+        </ngx-charts-pie-chart>
+      </nb-card-body>
+    </nb-card>
   </nb-card-front>
   <nb-card-back>
-      <nb-card size="xsmall">
-          <ngx-stats-card-front></ngx-stats-card-front>
-          <i class="nb-arrow-right" (click)="toggleView()"></i>
-        </nb-card>
+    <nb-card>
+      <nb-card-header>
+        <span class='txt'>اكثر البنود تبرعا</span>
+        <i class="nb-arrow nb-arrow-left" (click)="toggleFlipView()"></i>
+      </nb-card-header>
+      <nb-card-body>
+        <ngx-charts-pie-chart class="chart-container" [scheme]="colorScheme2" [results]="single2" [animations]="true"
+          [legend]="true" [legendTitle]="'البند'" [explodeSlices]="false" [labels]="true" [doughnut]="false"
+          [arcWidth]="0.25" (legendLabelClick)="onLegendLabelClick2($event)" [gradient]="true" [tooltipDisabled]="false"
+          [tooltipText]="pieTooltipText2" (dblclick)="dblclick($event)" (select)="select2($event)">
+        </ngx-charts-pie-chart>
+      </nb-card-body>
+    </nb-card>
   </nb-card-back>
 </nb-flip-card>

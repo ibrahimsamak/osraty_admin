@@ -4,6 +4,7 @@ import { interval } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
 import { EarningService, LiveUpdateChart } from '../../../../@core/data/earning.service';
 import { Subscription } from 'rxjs/Subscription';
+import { formatLabel } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'ngx-earning-card-front',
@@ -12,6 +13,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class EarningCardFrontComponent implements OnDestroy, OnInit {
   private alive = true;
+  single: any[];
+  animations: boolean = true;
 
   @Input() selectedCurrency: string = 'Bitcoin';
 
@@ -71,4 +74,27 @@ export class EarningCardFrontComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.alive = false;
   }
+
+  valueFormatting(value: number): string {
+    return `${Math.round(value).toLocaleString()} €`;
+  }
+
+  onLegendLabelClick(entry) {
+    console.log('Legend clicked', entry);
+  }
+
+  pieTooltipText({ data }) {
+    const label = formatLabel(data.name);
+    const val = formatLabel(data.value);
+
+    return `
+      <span class="tooltip-label">${label}</span>
+      <span class="tooltip-val">$${val}</span>
+    `;
+  }
+
+  select(data) {
+    console.log('Item clicked', data);
+  }
+  
 }

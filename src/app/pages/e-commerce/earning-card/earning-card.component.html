@@ -1,14 +1,71 @@
-<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+<nb-flip-card class='flip-noreverse' [showToggleButton]="false" [flipped]="flipped">
   <nb-card-front>
-      <nb-card size="xsmall">
-          <ngx-earning-card-back></ngx-earning-card-back>
-          <i class="nb-arrow-right" (click)="toggleFlipView()"></i>
-        </nb-card>
+    <nb-card>
+      <nb-card-header class='custom-title'>
+        <span>اهم احصائيات - نوكيا</span>
+        <i class="nb-arrow nb-arrow-left" (click)="toggleFlipView()"></i>
+      </nb-card-header>
+      <nb-card-body>
+        <!-- <ngx-charts-advanced-pie-chart class="chart-container" [view]="view" [scheme]="colorScheme" [results]="single"
+          [animations]="true" (legendLabelClick)="onLegendLabelClick($event)" [gradient]="true"
+          [tooltipDisabled]="false" [tooltipText]="pieTooltipText" (select)="select($event)">
+        </ngx-charts-advanced-pie-chart> -->
+
+        <ngx-charts-bar-vertical-2d class="chart-container" [view]="view" [scheme]="colorScheme"
+          [schemeType]="schemeType" [results]="single" [animations]="true" [gradient]="false" [xAxis]="true"
+          [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [tooltipDisabled]="false"
+          [xAxisLabel]="''" [yAxisLabel]="'العدد'" [showGridLines]="true" [barPadding]="8" [groupPadding]="5"
+          [roundDomains]="false" [roundEdges]="true" (select)="select($event)">
+        </ngx-charts-bar-vertical-2d>
+
+      </nb-card-body>
+    </nb-card>
   </nb-card-front>
-  <nb-card-back> 
-      <nb-card size="xsmall">
-          <ngx-earning-card-front></ngx-earning-card-front>
-          <i class="nb-arrow-right" (click)="toggleFlipView()"></i>
-        </nb-card>
+  <nb-card-back>
+    <nb-card>
+      <nb-card-header class='custom-title'>
+        <span class='txt'>اهم احصائيات - قنوات الشبكة</span>
+        <i class="nb-arrow nb-arrow-left" (click)="toggleFlipView()"></i>
+      </nb-card-header>
+      <nb-card-body>
+        <ngx-charts-bar-vertical-2d class="chart-container" [view]="view" [scheme]="colorScheme2"
+          [schemeType]="schemeType2" [results]="single2" [animations]="true" [gradient]="false" [xAxis]="true"
+          [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [tooltipDisabled]="false"
+          [xAxisLabel]="''" [yAxisLabel]="'العدد'" [showGridLines]="true" [barPadding]="8" [groupPadding]="5"
+          [roundDomains]="false" [roundEdges]="true" (select)="select2($event)">
+        </ngx-charts-bar-vertical-2d>
+      </nb-card-body>
+    </nb-card>
   </nb-card-back>
 </nb-flip-card>
+
+<!-- <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+  <nb-card-front>
+    <nb-card>
+      <nb-card-header class='custom-title'>
+          <span>اكثر المنتجات طلبا</span>
+          <i class="nb-arrow-left" (click)="toggleFlipView()"></i>
+      </nb-card-header>
+      <nb-card-body>
+        <ngx-charts-advanced-pie-chart class="chart-container" [view]="view" [scheme]="colorScheme" [results]="single"
+          [animations]="true" (legendLabelClick)="onLegendLabelClick($event)" [gradient]="true" [tooltipDisabled]="false"
+          [tooltipText]="pieTooltipText" (select)="select($event)">
+        </ngx-charts-advanced-pie-chart>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-front>
+  <nb-card-back>
+    <nb-card>
+      <nb-card-header>
+        اكثر الشركةات طلبا
+      </nb-card-header>
+      <nb-card-body>
+        <ngx-charts-advanced-pie-chart class="chart-container" [view]="view2" [scheme]="colorScheme2" [results]="single2"
+          [animations]="true" (legendLabelClick)="onLegendLabelClick2($event)" [gradient]="true" [tooltipDisabled]="false"
+          [tooltipText]="pieTooltipText2" (select)="select2($event)">
+        </ngx-charts-advanced-pie-chart>
+        <i class="nb-arrow-left" (click)="toggleFlipView()"></i>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-back>
+</nb-flip-card> -->

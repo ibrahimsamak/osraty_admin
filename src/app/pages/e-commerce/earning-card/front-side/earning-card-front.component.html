@@ -2,21 +2,17 @@
   <div class="chart-info">
     <div class="title">العايدات اليومية</div>
     <div class="value">{{ earningLiveUpdateCardData.dailyIncome | ngxNumberWithCommas }}</div>
-    <div class="delta"
-         [class.up]="earningLiveUpdateCardData.delta.up"
-         [class.down]="!earningLiveUpdateCardData.delta.up">
+    <div class="delta" [class.up]="earningLiveUpdateCardData.delta.up" [class.down]="!earningLiveUpdateCardData.delta.up">
       {{ earningLiveUpdateCardData.delta.value }}%
     </div>
   </div>
-  <ngx-earning-live-update-chart
-    [liveUpdateChartData]="liveUpdateChartData">
+  <ngx-earning-live-update-chart [liveUpdateChartData]="liveUpdateChartData">
   </ngx-earning-live-update-chart>
 </nb-card-body>
 
 <nb-card-header>
   <div class="dropdown ghost-dropdown" ngbDropdown>
-    <button type="button" ngbDropdownToggle class="btn"
-            [ngClass]="{
+    <button type="button" ngbDropdownToggle class="btn" [ngClass]="{
               'btn-success': currentTheme === 'default',
               'btn-primary': currentTheme !== 'default'}">
       {{ selectedCurrency }}
@@ -26,4 +22,3 @@
     </ul>
   </div>
 </nb-card-header>
-

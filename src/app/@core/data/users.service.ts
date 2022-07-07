@@ -1,5 +1,5 @@
 
-import { of as observableOf,  Observable } from 'rxjs';
+import { of as observableOf, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 
@@ -34,5 +34,18 @@ export class UserService {
   getUser(): Observable<any> {
     counter = (counter + 1) % this.userArray.length;
     return observableOf(this.userArray[counter]);
+  }
+
+
+  roleMatch(allowedRoles): boolean {
+    var isMatch = false;
+    var userRoles: String[] = JSON.parse(localStorage.getItem('roles'));
+    allowedRoles.forEach(element => {
+      if (userRoles.indexOf(element) > -1) {
+        isMatch = true;
+        return false;
+      }
+    });
+    return isMatch;
   }
 }

@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>صرف تبرع للمستفيد </nb-card-header>
+      <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <form #form="ngForm">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>اسم المستفيد </label>
+              <div class="input-group">
+                <ng-select name="xx" class="form-control" [dropdownPosition]="'bottom'" [items]="users"
+                  bindLabel="full_name" bindValue="_id" placeholder="اختر المستفيد " [(ngModel)]="selected_category_id"
+                  #selectedcategoryid="ngModel" (change)="UserChanging($event)" required>
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>بند التبرع</label>
+              <div class="input-group">
+                <ng-select name="xx" class="form-control" [dropdownPosition]="'bottom'" [items]="payments"
+                  bindLabel="type.name" bindValue="type._id" placeholder="بند التبرع" [(ngModel)]="selected_payment_id"
+                  #selectedcategoryid="ngModel" (change)="PaymentChanging($event)" required>
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="form-row col-md-12">
+              <div class="form-group col-md-4">
+                <label>المبلغ المطلوب: {{userDetails.ammount}}</label>
+              </div>
+              <div class="form-group col-md-4">
+                <label>مجموع التبرعات حتى اللحظة : {{userDetails.total_ammount}}</label>
+              </div>
+              <div class="form-group col-md-4">
+                <button [disabled]="requestId == null" class="btn btn-success btn-round btn-demo" (click)="updateStatus();">
+                  انهاء التبرع للطب 
+                </button>
+              </div>
+            </div>
+
+            <div class="form-row col-md-12">
+              <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+              <br>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>المبلغ</label>
+              <div class="input-group">
+                <input type="number" min="0" placeholder="المبلغ" class="form-control" #price="ngModel"
+                  [(ngModel)]="payment.ammount" name="ammount" id="ammount" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>ملاحظات</label>
+            <div class="input-group">
+              <textarea rows="5" placeholder="ملاحظات" class="form-control" #description="ngModel"
+                [(ngModel)]="payment.description" name="description" id="description"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div>
+              <button [disabled]="!form.valid" class="btn btn-success btn-round btn-demo" (click)="Save(payment);">حفظ
+                المعلومات
+              </button>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

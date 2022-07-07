@@ -7,7 +7,8 @@ import { ConstantService } from '../service/constant.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { SuperComponent } from '../../_components/SuperComponent/SuperComponent';
 import { appConstant } from '../service/_constant/appConstant';
-const uri = '/product/category/file_upload';
+import { MessagingService } from '../service/_shared/messaging.service';
+const uri = appConstant.BASE_URL + 'file_upload';
 
 @Component({
   selector: 'ngx-advs',
@@ -20,14 +21,10 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   selectedValue = '0';
 
   Adv = {
-    name: '',
+    title: '',
     details: '',
     image: '',
-    price_before: 0,
-    price_after: 0,
-    type: this.selectedValue,
-    supplier_id: '',
-    product_id: ''
+    type: 1
   }
 
   settings = {
@@ -75,31 +72,31 @@ export class AdvsComponent extends SuperComponent implements OnInit {
         `;
         },
       },
-      name: {
-        title: 'اسم الاعلان',
+      title: {
+        title: 'اسم الخبر',
         type: 'string',
       },
-      type: {
-        title: 'نوع الاعلان',
-        type: 'html',
-        valuePrepareFunction: (type: string) => {
-          if (type === '1') {
-            return `<span>اعلان منتج</span>`
-          }
-          else if (type === '2') {
-            return `<span>اعلان هايبر</span>`
-          }
-          else {
-            return `<span>اعلان عام</span>`
-          }
-        },
-        filterFunction(obj?: any, search?: string): boolean {
-          if (obj.toLowerCase().indexOf(search) > -1) {
-            return true;
-          }
-          return false;
-        }
-      }
+      // type: {
+      //   title: 'نوع الاعلان',
+      //   type: 'html',
+      //   valuePrepareFunction: (type: string) => {
+      //     if (type === '1') {
+      //       return `<span>اعلان منتج</span>`
+      //     }
+      //     else if (type === '2') {
+      //       return `<span>اعلان هايبر</span>`
+      //     }
+      //     else {
+      //       return `<span>اعلان عام</span>`
+      //     }
+      //   },
+      //   filterFunction(obj?: any, search?: string): boolean {
+      //     if (obj.toLowerCase().indexOf(search) > -1) {
+      //       return true;
+      //     }
+      //     return false;
+      //   }
+      // }
     }
   };
   suppliers = [];
@@ -117,38 +114,38 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   constructor(private service: ConstantService,
     private route: ActivatedRoute,
     private toasterService: ToasterService,
-    private router: Router) {
+    private router: Router
+  ) {
     super(route, toasterService, router);
     if (this.settings.columns["_id"].hasOwnProperty("show")) {
       if (this.settings.columns["_id"].show == false) {
         delete this.settings.columns["_id"];
       }
     }
-
   }
 
   ngOnInit() {
     this.loading = true;
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'] == undefined ? null : params['id'];
-      this.service.getSupplierData().subscribe((res) => {
-        this.suppliers = res as any[];
-        if (this.id) {
-          this.service.getSingleAdvData(this.id).subscribe(x => {
-            this.Adv = x as any;
-            this.selectedValue = x['type'] as any
-            this.selected_supplier_id = x['supplier_id']
-            this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res2) => {
-              this.products = res2[appConstant.ITEMS] as any[]
-              this.selected_product_id = x['product_id']
-            });
-            this.isEdit = true;
-            this.loading = false;
+      // this.service.getSupplierData().subscribe((res) => {
+      // this.suppliers = res as any[];
+      if (this.id) {
+        this.service.getSinglenewsData(this.id).subscribe(x => {
+          this.Adv = x['items'] as any;
+          // this.selectedValue = x['items']['type'] as any
+          // this.selected_supplier_id = x['items']['supplier_id']
+          // this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res2) => {
+          //   this.products = res2[appConstant.ITEMS] as any[]
+          //   this.selected_product_id = x['product_id']
+          // });
+          this.isEdit = true;
+          this.loading = false;
 
-          });
-        }
-      })
-    });
+        });
+      }
+    })
+    // });
     this.getData()
   }
 
@@ -158,7 +155,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
 
   getData() {
     this.loading = true;
-    this.subscripe = this.service.getAdvData().subscribe(userList => {
+    this.subscripe = this.service.getnewsData().subscribe(userList => {
       this.items = userList[appConstant.ITEMS] as any;
       this.source.load(userList[appConstant.ITEMS] as any);
       this.loading = false;
@@ -168,7 +165,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   onDeleteConfirm(event): void {
     if (window.confirm('هل أنت متأكد من حذف العنصر؟')) {
       const index = event.source.data.indexOf(event.data);
-      this.service.DeleteAdvData(event.data._id).subscribe(x => {
+      this.service.DeletenewsData(event.data._id).subscribe(x => {
         event.source.data.splice(index, 1);
         event.confirm.resolve();
         this.source.refresh();
@@ -180,7 +177,7 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   }
 
   onUserRowSelect(event) {
-    this.router.navigate(['/pages/adv/AddAdv/', event.data._id]);
+    this.router.navigate(['/pages/news/AddAdv/', event.data._id]);
   }
 
 
@@ -193,23 +190,19 @@ export class AdvsComponent extends SuperComponent implements OnInit {
       }
       else {
         let conent = {
-          name: category.name,
+          title: category.title,
           image: category.image,
           details: category.details,
-          type: this.selectedValue,
-          price_after: category.price_after,
-          price_before: category.price_before
+          type: 1
         }
-        this.service.UpdateAdvData(this.id, conent).subscribe(x => {
+        this.service.UpdatenewsData(this.id, conent).subscribe(x => {
           this.Adv = {
-            name: '',
+            title: '',
             details: '',
             image: '',
-            price_before: 0,
-            price_after: 0,
-            type: '0', supplier_id: '', product_id: ''
+            type: 1,
           }
-          this.router.navigate(['/pages/adv/AddAdv/']);
+          this.router.navigate(['/pages/news/AddAdv/']);
         }, err => {
           console.log(err.error);
           this.showToast('error', 'خطأ', err.error);
@@ -222,53 +215,44 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   }
 
   upload(category) {
-    this.Adv.type = this.selectedValue;
-    this.Adv.supplier_id = this.selected_supplier_id;
-    this.Adv.product_id = this.selected_product_id;
 
     this.uploader.uploadAll();
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       console.log(item.file.rawFile)
-      this.service.AddImagetoServer(item.file.rawFile).subscribe((res) => {
-        const url = res['result']['url']
-        this.Adv.image = url;
+      const url = item.file.rawFile
+      this.Adv.image = url;
 
-        if (this.id) {
-          this.service.UpdateAdvData(this.id, this.Adv).subscribe(x => {
-            this.Adv = {
-              name: '',
-              details: '',
-              image: '',
-              type: 'اعلان منتج',
-              price_after: 0,
-              price_before: 0, supplier_id: '', product_id: ''
-            }
-            this.uploader.clearQueue();
-            this.resetfile();
-            this.router.navigate(['/pages/adv/AddAdv/']);
-          }, (err) => {
-            this.showToast('error', 'خطأ', err.error);
-          });
-        }
-        else {
-          this.service.CreateAdvtData(this.Adv).subscribe(x => {
-            this.Adv = {
-              name: '',
-              details: '',
-              image: '',
-              type: '0',
-              price_after: 0,
-              price_before: 0, supplier_id: '', product_id: ''
-            }
-            this.uploader.clearQueue();
-            this.resetfile();
-            this.getData();
-          }, err => {
-            console.log(err.error);
-            this.showToast('error', 'خطأ', err.error);
-          });
-        }
-      });
+      if (this.id) {
+        this.service.UpdatenewsData(this.id, this.Adv).subscribe(x => {
+          this.Adv = {
+            title: '',
+            details: '',
+            image: '',
+            type: 1,
+          }
+          this.uploader.clearQueue();
+          this.resetfile();
+          this.router.navigate(['/pages/news/AddAdv/']);
+        }, (err) => {
+          this.showToast('error', 'خطأ', err.error);
+        });
+      }
+      else {
+        this.service.CreateNewstData(this.Adv).subscribe(x => {
+          this.Adv = {
+            title: '',
+            details: '',
+            image: '',
+            type: 1
+          }
+          this.uploader.clearQueue();
+          this.resetfile();
+          this.getData();
+        }, err => {
+          console.log(err.error);
+          this.showToast('error', 'خطأ', err.error);
+        });
+      }
     }
   }
 
@@ -283,12 +267,12 @@ export class AdvsComponent extends SuperComponent implements OnInit {
   }
 
   SupplierChanging(val) {
-    this.selected_supplier_id = val._id;
-    this.loading = true
-    this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res) => {
-      this.products = res[appConstant.ITEMS] as any[]
-      this.loading = false
-    });
+    // this.selected_supplier_id = val._id;
+    // this.loading = true
+    // this.service.getsupplierproductsBySupplierId(this.selected_supplier_id).subscribe((res) => {
+    //   this.products = res[appConstant.ITEMS] as any[]
+    //   this.loading = false
+    // });
   }
 
   ProductChanging(val) {

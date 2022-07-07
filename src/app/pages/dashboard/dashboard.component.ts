@@ -1,6 +1,8 @@
-import {Component, OnDestroy} from '@angular/core';
+import { ConstantService } from './../service/constant.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators/takeWhile' ;
+import { takeWhile } from 'rxjs/operators/takeWhile';
+import { MessagingService } from '../service/_shared/messaging.service';
 
 interface CardSettings {
   title: string;
@@ -13,7 +15,7 @@ interface CardSettings {
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnDestroy {
+export class DashboardComponent implements OnDestroy, OnInit {
 
   private alive = true;
 
@@ -52,36 +54,44 @@ export class DashboardComponent implements OnDestroy {
     cosmic: CardSettings[];
     corporate: CardSettings[];
   } = {
-    default: this.commonStatusCardsSet,
-    cosmic: this.commonStatusCardsSet,
-    corporate: [
-      {
-        ...this.lightCard,
-        type: 'warning',
-      },
-      {
-        ...this.rollerShadesCard,
-        type: 'primary',
-      },
-      {
-        ...this.wirelessAudioCard,
-        type: 'danger',
-      },
-      {
-        ...this.coffeeMakerCard,
-        type: 'secondary',
-      },
-    ],
-  };
+      default: this.commonStatusCardsSet,
+      cosmic: this.commonStatusCardsSet,
+      corporate: [
+        {
+          ...this.lightCard,
+          type: 'warning',
+        },
+        {
+          ...this.rollerShadesCard,
+          type: 'primary',
+        },
+        {
+          ...this.wirelessAudioCard,
+          type: 'danger',
+        },
+        {
+          ...this.coffeeMakerCard,
+          type: 'secondary',
+        },
+      ],
+    };
 
-  constructor(private themeService: NbThemeService) {
+  constructor(private themeService: NbThemeService, private messagingService: MessagingService, private service: ConstantService) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.statusCards = this.statusCardsByThemes[theme.name];
-    });
+      });
   }
 
+
+  ngOnInit() {
+    let _user = localStorage.getItem('auth_user');
+    let current_user = JSON.parse(_user)
+
+    const userId = current_user['_id']
+    this.messagingService.requestPermission(userId)
+  }
   ngOnDestroy() {
     this.alive = false;
   }

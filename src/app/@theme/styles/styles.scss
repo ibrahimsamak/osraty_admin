@@ -8,6 +8,10 @@
 @import '~@angular/material/theming';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~ngx-bootstrap/datepicker/bs-datepicker.css';
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
 //@import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
 
@@ -49,6 +53,9 @@ body *{
 }
 .nb-alert, .nb-angle-double-left, .nb-angle-double-right, .nb-arrow-down, .nb-arrow-dropdown, .nb-arrow-dropleft, .nb-arrow-dropright, .nb-arrow-dropup, .nb-arrow-left, .nb-arrow-retweet, .nb-arrow-right, .nb-arrow-thin-down, .nb-arrow-thin-left, .nb-arrow-thin-right, .nb-arrow-thin-up, .nb-arrow-up, .nb-audio, .nb-bar-chart, .nb-checkmark, .nb-chevron-down, .nb-chevron-down-outline, .nb-chevron-left, .nb-chevron-left-outline, .nb-chevron-right, .nb-chevron-right-outline, .nb-chevron-up, .nb-chevron-up-outline, .nb-close, .nb-close-circled, .nb-cloudy, .nb-coffee-maker, .nb-compose, .nb-edit, .nb-email, .nb-flame-circled, .nb-gear, .nb-grid-a, .nb-grid-a-outline, .nb-grid-b, .nb-grid-b-outline, .nb-heart, .nb-home, .nb-keypad, .nb-layout-centre, .nb-layout-default, .nb-layout-one-column, .nb-layout-sidebar-left, .nb-layout-sidebar-right, .nb-layout-two-column, .nb-lightbulb, .nb-list, .nb-location, .nb-locked, .nb-loop, .nb-loop-circled, .nb-menu, .nb-notifications, .nb-paper-plane, .nb-partlysunny, .nb-pause, .nb-pause-outline, .nb-person, .nb-phone, .nb-play, .nb-play-outline, .nb-plus, .nb-plus-circled, .nb-power, .nb-power-circled, .nb-rainy, .nb-roller-shades, .nb-search, .nb-shuffle, .nb-skip-backward, .nb-skip-backward-outline, .nb-skip-forward, .nb-skip-forward-outline, .nb-snowy-circled, .nb-square, .nb-square-outline, .nb-star, .nb-sunny, .nb-sunny-circled, .nb-tables, .nb-title, .nb-trash, .nb-volume-high, .nb-volume-mute, .nb-drop, .nb-drops, .nb-info, .nb-expand, .nb-collapse, .nb-e-commerce {
   font-family: nebular !important;
+}
+.fa, .fas, .far, .fal, .fab{
+  font-family: 'Font Awesome 5 Free' !important;
 }
 
 $toaster-default: #48a148 !default;
@@ -303,5 +310,81 @@ button.toast-close-button {
   #toast-container > div {
     padding: 15px 15px 15px 50px;
     width: 25em;
+  }
+}
+.img-corner {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 1px solid #5dcfe3;
+}
+.modal-content {
+  direction: rtl;
+  text-align: right;
+}
+.modal-footer > :not(:first-child) {
+  margin-right: .25rem;
+}
+.custom-ngxtable.ngx-datatable .datatable-body-cell, 
+.custom-ngxtable.ngx-datatable .datatable-header-cell {
+  overflow-x: initial;
+}
+.custom-ngxtable.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell {
+  overflow: initial;
+}
+.custom-ngxtable.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell.tbl-overflow {
+  overflow: hidden
+}
+.dropdown-menu {
+  text-align: right;
+}
+.dropdown-item {
+  color:#5dcfe3;
+}
+.dropdown-item:hover {
+  color:#5dcfe3;
+}
+.bg-gray {
+  background-color: #f3f3f3;
+  padding: 2px 8px;
+}
+.txt1 {
+  color: #a0a0a0;
+  padding-left: 10px;
+}
+.txt2 {
+  color:#000;
+}
+.ngx-datatable .datatable-footer .datatable-pager .pager li a i {
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  display: block;
+  margin-top: -2px;
+}
+.ngx-datatable .datatable-body-cell-label {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+  text-align: center
+}
+.dropdown-item:focus {
+  outline: none !important;
+}
+.custom-title {
+  display: flex;
+  >.txt {
+    flex-grow: 1;
+  }
+}
+.flip-noreverse {
+  nb-card-header {
+    -webkit-box-direction: initial !important;
+    -ms-flex-direction: row !important;
+    flex-direction: row !important;
   }
 }
